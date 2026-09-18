@@ -56,6 +56,9 @@ input[type=text]{font-size:18px;padding:10px;border:2px solid var(--line);border
 .hide{display:none}
 .exbox{background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:14px;line-height:1.7}
 .exbox b{color:#c2410c}
+.figbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px;margin:6px 0 10px}
+.bigbtn{font-size:18px;padding:16px}
+.course{display:flex;gap:10px}.course button{flex:1;border:2px solid var(--line);background:#fff;border-radius:12px;padding:14px 8px;font-size:15px}.course button.on{border-color:var(--acc);background:#eff6ff;font-weight:700}
 .blank{display:inline-block;min-width:4em;border-bottom:2px solid var(--acc);color:transparent;padding:0 4px;text-align:center}
 .blank.show{color:var(--ng);font-weight:700;background:#fef2f2;border-radius:4px}
 .fc{font-size:17px;line-height:1.9;margin:8px 0 14px;white-space:pre-wrap}
@@ -64,7 +67,7 @@ input[type=text]{font-size:18px;padding:10px;border:2px solid var(--line);border
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v4</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v7</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -78,45 +81,57 @@ input[type=text]{font-size:18px;padding:10px;border:2px solid var(--line);border
 <!-- ===== HOME ===== -->
 <section id="v-home">
 <div id="learn-top">
+<div class="card" id="today-card"></div>
+<div class="card" id="course-card"></div>
 <div class="card">
-<h2>学習の進め方</h2>
-<p style="margin:0 0 6px">1つのPARTを <b>読む → 穴埋め → 4択</b> の順でやる。4択80%以上で✓。全PARTを✓にしてから、翌日以降は「復習」で回す。</p>
-<button class="btn" id="btn-continue" onclick="learnContinue()">続きから</button>
-<button class="btn sec" id="btn-review" onclick="learnReview()">復習（✓済みからランダム）</button>
-<p class="small">記録はこの端末のブラウザに保存。別端末には引き継がれない。</p>
+<h2>出題傾向（試作＋2025本・追＋2026本・追）と来年の読み</h2>
+<details><summary>4回で毎回出ているもの＝落とせない</summary><ul class="pt">
+<li><b>2ⁿ通り・必要ビット数・2進⇄16進</b>（第1問）：時刻のビット数、LEDの点灯パターン、図案の16進表現、地図タイル 2ᵏ×2ᵏ</li>
+<li><b>権利・セキュリティの場面正誤</b>（第1問・第2問A）：著作権の私的使用、肖像権、認証3種類、多要素認証の利点、不審メッセージ、バックアップ＝可用性</li>
+<li><b>配列を添字でそろえて処理するプログラム</b>（第3問）：累積・カウント・最小値/最大値探索・条件 and・「代入が何回行われたか」</li>
+<li><b>散布図と相関係数・箱ひげ図・回帰直線の予測値計算</b>（第4問）：「必ず」「〜すれば増える」を排除、指標を割り算で作る、直線の上下</li>
+</ul></details>
+<details><summary>2回出た＝次も出る前提</summary><ul class="pt">
+<li>UIの法則（フィッツの法則・ホイール初期値＝中央値）、情報システムの図（矢印の番号＝時間順、どの情報が流れるか）、表形式データ（行の追加・削除・別表）、確率的／待ち行列シミュレーション、移動平均、欠損値、尺度水準、動画・画像のデータ量比較</li>
+</ul></details>
+<details><summary>まだ出ていない＝「数年で全分野」方針から次の候補</summary><ul class="pt">
+<li><b>補数・負の数</b>、<b>パリティ</b>（試作のみ）、<b>ランレングス圧縮</b>、<b>音のデータ量計算</b>（本格的には未出）、<b>共通鍵/公開鍵</b>、<b>TCP/IPの階層</b>、<b>データベースの選択・射影・結合</b>、<b>仮説検定</b>、<b>HTML/CSS</b>、モデルの分類</li>
+<li>これらは「基本を1回押さえて仕上げ期に確認」。深追いはしない</li>
+</ul></details>
+<details><summary>センターの評価報告書から（2026本試：平均56.6点）</summary><ul class="pt">
+<li>第1問の得点率が約4割。用語問題は「定義」でなく<b>性質の対比・場面での機能</b>で問う方針を継続</li>
+<li>第3問の<b>プログラム改変</b>（for→while、初期化の位置、実行回数）は学会が歓迎→継続</li>
+<li>第4問の「うまく補正できる点はどれか」（回帰直線の上下の解釈）が正答率3割。ここが差がつく</li>
+<li>問題量は「前年並みが望ましい」と指摘→大幅増はない。時間配分は 第1問10・第2問15・第3問20・第4問15</li>
+</ul></details>
 </div>
 <div class="card">
-<h2>共テの解き方（試作問題から）</h2>
-<details><summary>全体：60分・100点・大問4つ</summary><ul class="pt">
-<li>第1問（20点）小問集合：SNSの判断・パリティ・論理回路・情報の整理。<b>知識＋その場の計算</b>。10分</li>
-<li>第2問（30点）A：技術の仕組み（二次元コード）、B：シミュレーション（待ち行列）。<b>問題文の表と条件を読む</b>。15分</li>
-<li>第3問（25点）プログラミング：会話文→関数→穴埋め。<b>トレース</b>。20分</li>
-<li>第4問（25点）データ分析：表・箱ひげ図・散布図・相関行列。<b>読み取り</b>。15分</li>
-<li>知らない題材（二次元コード・クレープ屋）が出るのが普通。<b>説明は全部問題文にある</b>ので、知識で解こうとせず条件を拾う。</li>
+<h2>共テの解き方</h2>
+<details><summary>全体</summary><ul class="pt">
+<li>知らない題材（地図タイル・迷路・クロスステッチ・住民証明・花粉）が出るのが普通。<b>説明は全部問題文にある</b>。知識で解こうとせず条件を拾う</li>
+<li>「適当でないもの」「二つ選べ」「順序は問わない」を読み落とさない</li>
 </ul></details>
 <details><summary>第1問：小問集合</summary><ul class="pt">
-<li>「適当なものを二つ選べ」：選択肢を1つずつ○×。「どんなときでも」「必ず」「問題ない」は×になりやすい</li>
-<li>パリティ：ルールは問題文に書いてある。16進→2進→1を数える→ビット追加。手を動かす</li>
-<li>論理回路：場面（両方使用中で点灯）→まず真理値表を自分で書く→選択肢と照合</li>
+<li>正誤選択肢：「必ず」「どんなときでも」「〜すれば防げる」は×になりやすい。権利は「私的使用」「引用」「写り込み」で判断</li>
+<li>計算：2ⁿ≥N、桁×進法。地図・LED・時刻など場面を「何通り必要か」に翻訳する</li>
+<li>UI：大きい・近い＝速い。初期値は中央値。構造化＝見出し／箇条書き／インデント</li>
 </ul></details>
 <details><summary>第2問：仕組みとシミュレーション</summary><ul class="pt">
-<li>会話文の「先生の説明」に答えのヒントが必ずある。下線部の直前直後を読む</li>
-<li>表から規則を読む：「文字数↑→セル数↑」「誤り訂正↑→セル数↑」のように、変化の向きをメモ</li>
-<li>待ち行列：①度数→相対度数→<b>累積相対度数</b> ②乱数がどの区間かで到着間隔 ③到着時刻・開始時刻・終了時刻の表を書く。待ち時間＝開始−到着</li>
+<li>図の矢印に番号があれば時間順。「改良前と何が変わったか」「誰の役割が変わったか」を一言で言う</li>
+<li>ビット演算：白1111・黒0000と覚え、OR＝どちらか1、AND＝両方1で手計算</li>
+<li>データ量：倍率で比較（解像度1/2→1/4、fps半分→1/2、グレー→1/3）</li>
+<li>シミュレーション：乱数の区間→分岐、表を1行ずつ埋める、ヒストグラムの考察は「乱数なので毎回同じにはならない」</li>
 </ul></details>
 <details><summary>第3問：プログラミング</summary><ul class="pt">
-<li>①会話から「何を計算するプログラムか」を一言で言う（例：交換する硬貨の枚数の最小値）</li>
-<li>②問題文の具体例（46円）で手計算しておく。答えが分かっていれば空欄は逆算できる</li>
-<li>③空欄は「÷と%」「繰り返しの向き・範囲」「配列の添字」「最小値の更新（初期値は大きい数）」のどれかがほとんど</li>
-<li>④迷ったら<b>トレース表</b>：変数を列にして1行ずつ。DNCLの繰り返しは終了値を含む</li>
-<li>関数は「引数→戻り値」の箱。中身を追う前に「枚数(46)=6」のように値で考える</li>
+<li>①会話と図から「何を計算するか」を一言で ②具体例で手計算（表を埋める）③空欄を当てはめてトレース</li>
+<li>空欄は「配列の添字（i か b か s か）」「累積 x = x + …」「最小/最大の更新」「繰り返しの終了値（要素数−1）」「条件 and」のどれか</li>
+<li>「代入は何回行われたか」は必ずトレース表で数える。改変問題は初期化を繰り返しの<b>前</b>、加算を<b>末尾</b>に</li>
 </ul></details>
 <details><summary>第4問：データ分析</summary><ul class="pt">
-<li>表：何が行で何が列か、単位は何かを最初に確認。「〜と言うために必要な比較は？」＝比べたい要因以外をそろえる</li>
-<li>箱ひげ図：中央値の位置・箱の長さ・ひげ・外れ値の点。外れ値の定義は問題文（IQRの1.5倍など）に従って計算</li>
-<li>散布図・相関行列：対角＝ヒストグラム、下＝相関係数、上＝散布図。0.7以上で強い</li>
-<li>相関があっても因果とは限らない。「必ず」「〜だから〜が売れた」は×。「予測に使える」は○</li>
-<li>回帰直線：直線より上＝予測より大きい。傾きの符号で正負の相関</li>
+<li>表：行・列・単位を確認。「−」は欠損値として除外</li>
+<li>相関が全部0.9台＝規模の影響→割合や人口あたりの指標に直す。相関から因果は言わない</li>
+<li>箱ひげ図：中央値・箱の長さ・平均マーク。ヒストグラムが偏っていれば中央値で分ける</li>
+<li>回帰直線：予測値は概算で選択肢を絞る。直線より上＝実測＞予測。差の符号は問題文の定義に従う</li>
 </ul></details>
 </div>
 <div id="learn-map"></div>
@@ -300,26 +315,175 @@ const LESSONS={
 
 /* ================= EXAM (共テではこう出る: 講-PART → text) ================= */
 const EXAM={
-"1-2":"SNSの投稿・Q&Aサイト・検索上位…の中から「信ぴょう性の確かめ方として適当なもの」を選ぶ形で出る。正解はいつも<b>複数の情報源で比較・検証</b>。「いいねが多い」「上位に出る」は不正解の定番。",
-"1-3":"「アニメのキャラ画像をプロフィールに無断使用→著作権侵害」「芸能人は肖像権の対象外→誤り」のように、<b>日常の場面が権利の侵害かどうか</b>を判断させる。特許は「権利を持っていても行使しないと決めれば広く使われる」（二次元コードの例）。",
-"1-4":"「匿名で投稿すれば特定されない」「非公開グループなら個人情報を書いてよい」は<b>どちらも誤り</b>の選択肢として出る。「信頼できる相手でもなりすましの可能性を考える」が正しい判断。",
-"1-5":"<b>パリティチェック</b>が出る。「1の個数が偶数なら0、奇数なら1を付ける」ルールが問題文に書かれ、①16進→2進に直す ②1を数える ③ビットを付ける、の手順。さらに「1ビットの誤りは検出できるがどのビットかは分からない」「2ビット誤ると見逃す」を答える。",
-"3-3":"16進をそのまま問うより、「16進の7Aを2進8ビットにしてから○○する」のように<b>他の処理の入口</b>として出る。7A → 0111 1010 が即座に書けること。",
-"3-7":"二次元コードが題材。「セルは1と0に符号化」「3隅の目印は位置検出（回転しても黒白比1:1:3:1:1）」「<b>誤り訂正レベル</b>を上げるとセル数（=データ量）が増える」「文字種によって必要セル数が違う」を、表を見て推論する。",
-"4-1":"情報の整理の基準「<b>場所・アルファベット・時間・カテゴリー・階層（連続量）</b>」（LATCH）が出た。路線図＝場所、ランキング＝階層（連続量）＋カテゴリー。図を見て「何を基準に並んでいるか」を答える。",
-"5-3":"「トイレAとBが両方使用中ならランプ点灯」のような<b>日常の場面を論理回路にする</b>問題。まず真理値表を自分で書く（AND=両方1）。「3つのうち2つ以上」なら (A AND B) OR (B AND C) OR (A AND C)。選択肢の真理値表を1行ずつ確認。",
-"6-4":"第3問の核。「46円に対して10円玉が何枚使えるか＝46÷10（商）」「残りは46%10（余り）」のように、<b>÷と%を場面に当てはめる</b>。数字を入れて手で計算して選ぶ。",
-"6-5":"繰り返しの範囲を問う。「高額の硬貨から使う」なら配列を<b>後ろから前へ</b>（4から0まで1ずつ減らし）。for文の向きと終了値を、問題文の方針から決める。",
-"6-6":"配列 Kouka=[1,5,10,50,100] を添字で操作。「maisu = maisu + nokori÷Kouka[i]」「nokori = nokori%Kouka[i]」のように<b>2つの変数を同時に更新</b>するパターン。トレース表を書けば必ず解ける。",
-"6-7":"関数「枚数(金額)」を定義して呼び出す。「最小値を求める」定番パターン：<b>min_maisu=100 を初期値にして、小さい値が出るたびに更新</b>。<code>もし 枚数(shiharai)+枚数(tsuri) &lt; min_maisu ならば min_maisu = …</code>。",
-"6-9":"第3問は全体が会話文＋プログラム穴埋め。①会話から「何を計算したいか」を日本語で掴む ②具体例（46円）で手計算 ③空欄にDNCLを当てはめてトレース。プログラムを最初から読まない。",
-"7-1":"「客が1人ずつ来る店で、待ち時間がどう変わるか」＝<b>待ち行列の確率的モデル</b>。実物で試せないからシミュレーションする、という文脈で出る。",
-"7-2":"<b>到着間隔を乱数で決める</b>手順が出る：到着間隔の度数分布→相対度数→<b>累積相対度数</b>→0〜1の乱数がどの区間に入るかで階級値を決める。次に「対応時間4分」で、待ち時間＝前の客の終了時刻−自分の到着時刻を表で追う。",
-"7-3":"移動平均（前後数か月の平均）を表計算で求める問題が参考問題に。「6か月移動平均を4月の行に書く」など、<b>どの行にどの範囲の平均を置くか</b>を読み取る。",
-"9-1":"「都道府県別・スマホ使用時間別の生活時間」など<b>公的統計の表</b>が題材。表の見方（行＝都道府県、列＝行動）をまず確認。外れ値の基準は問題文で定義される（箱の1.5倍など）。",
-"9-2":"<b>箱ひげ図を複数並べて比較</b>する。読み取るのは「中央値の位置」「箱の長さ（散らばり）」「ひげの端」「外れ値の点」。「四分位範囲の1.5倍を超えたら外れ値」のルールで判定させる。",
-"9-3":"<b>散布図・相関行列</b>（対角がヒストグラム、下三角が相関係数、上三角が散布図）を読む。「相関0.9なら強い」「0.6は中程度」。エアコンとアイスの例：気温が両方の原因＝疑似相関を選ぶ。「データを1か月ずらすと相関が上がる」→前月のデータから予測できる、という読み取り。",
-"9-4":"散布図に<b>回帰直線</b>を引き、「直線より上の点は何を意味するか」「傾きの意味」を問う。式の予測値と実測値の差（残差）にも注目。"
+"1-3":"4回中3回、<b>日常の場面が権利侵害かどうか</b>の正誤で出た。「有名人の写真を友達にあげる」「1750年没の作曲家の曲を演奏して投稿」「購入した問題集をコピーして自分用の問題集」は侵害しない。「他人の著作物を丸ごと転載」は侵害。「写り込みのある写真の投稿」→肖像権。実用新案権や著作者人格権を混ぜた選択肢で引っかけてくる。",
+"1-4":"<b>SNS投稿の組み合わせで個人が特定される</b>問題（R8追）：店名＋通学経路＋部活の受賞＝学校名・氏名。「削除すれば拡散しない」は誤り、「写真の位置情報」は正しい。アンケートで年齢→年齢層、町名→市名にする意図＝<b>個人が特定されにくく</b>する。プライバシーポリシーの「委託」は可、会員同士のアドレス閲覧は×。",
+"1-5":"認証3種類（知識・所有物・生体）をパスワード／認証コードに当てはめる（R7本）。多要素認証の利点＝<b>漏洩時の不正ログインのリスクを減らす</b>。「バックアップ＝可用性を高める」が正しい選択肢（R8本）。不審なメッセージには<b>反応しない</b>（URLを開かない・返信しない）。フィッシングで盗んだIDでログイン＝不正アクセス禁止法。パスワードのパターン数は 62¹⁰ のように<b>文字種^文字数</b>。",
+"2-1":"「信ぴょう性の確かめ方」＝複数の情報源で比較検証。SNSのいいね数・検索順位で判断する選択肢は×。",
+"3-1":"<b>毎回出る</b>。「24時間制の時と分を別々に最小ビットで」→5+6=11（R8追）。「7本のLEDの点灯組合せ」→2⁷=128（R7追）。「N種類を区別するのに何桁必要か」。地図タイル：レベルkで2ᵏ×2ᵏ枚、粗いレベルで同じ範囲を表示すると枚数が1/4ずつ減る（R7本）。<b>2ⁿ通り</b>と<b>2ⁿ≥N</b>を場面に当てはめる練習が最優先。",
+"3-2":"2進の「桁を逆順にする」変換（R8本：クロスステッチ図案 1000→0001）。2進を4桁ずつ16進に。8C8Fを逆順でF8C8。ビット列の並べ替えを手で書けること。",
+"3-3":"2進4桁→16進1文字の変換は<b>4回中3回</b>登場（図案、パリティ、ラーメン注文コード）。「十の位と一の位で何種類区別できるか」のように<b>桁×進法＝表せる数</b>を問う。ラスタ/ベクタの正誤（写真はラスタ向き、拡大でジャギーが出ないのはベクタ）も第1問で。",
+"3-4":"動画の音声：48kHzで24fpsなら1フレームあたり 48000÷24=<b>2000回</b>標本化（R8追）。「1秒あたり」を「1フレームあたり」に換算する型。",
+"3-5":"論理演算で画像を合成（R8本）：白1111と1010のOR＝1111、黒0000と0110のOR＝0110。マスク画像とANDで切り抜き、NOTで白黒反転。<b>ビットごとのOR/AND/NOT</b>を4桁・8桁で計算できること。ヒストグラムで「背景だけ選ぶ階調範囲」を読む。",
+"3-6":"データ量の比較（R8追）：解像度を縦横1/2→1/4、fps30→1/2、グレースケール→1/3。<b>倍率で比べる</b>。ラスタ/ベクタの特徴も。",
+"3-7":"動画（R8追）：データ量＝横×縦×3バイト×fps×秒。24fpsのフレームを全部使って60fpsにすると<b>再生時間が0.4倍</b>。フレーム間の差分だけ記録→固定カメラの方が小さい。「ストリーミングでデータ欠落を防げる」は誤り。文字列のパターン置換（R8追ゲノム：GTT→α）＝辞書式圧縮の考え方。",
+"3-8":"「識別番号の別表を作る利点」（R8追）：データ量削減・表記ゆれ防止・修正容易。<b>「識別番号の平均が計算できる」は利点でない</b>（名義尺度）。",
+"4-1":"議事録の記法（R8追）：行頭記号で見出し・箇条書き・補足を区別＝<b>構造化</b>。装飾は「見出しを目立たせ、補足を目立たなくする」。階層はインデント。情報の整理基準（試作）。",
+"4-2":"UIの法則問題が<b>3回</b>：フィッツの法則（大きい・近い対象ほど速い、画面端は大きさ無限大、よく使う項目はカーソル近く）（R7追）。ホイール入力の初期値は<b>中央値</b>にするとスクロール距離の平均が最小、円環リストならどこでも同じ（R8本）。タブレット注文の数値設計。",
+"5-1":"主記憶は高速・短期、補助記憶は低速・大容量・長期（R8本）。用語でなく<b>性質の対比</b>で問う。",
+"5-3":"論理演算はR8本で<b>画像合成</b>として出た（第2問B）。試作の真理値表からステップアップし、「ビット列同士のAND/OR/NOT」→「マスクで切り抜く」まで。3入力の多数決回路も準備。",
+"5-4":"補数は<b>4回とも未出題</b>。「数年間で全分野から」の方針から、次に来る候補。負の数のビット表現・引き算を足し算で、を押さえる。",
+"6-4":"第3問で÷（商）%（余り）は毎回どこかに出る。R7追：チェックディジット「各桁の和を10で割った余り」。",
+"6-5":"繰り返しの範囲：「i を 1 から ninzu まで」「i を 0 から 要素数(Bunya)−1 まで」（添字が0始まりか1始まりかで終了値が変わる）。<b>実行回数を数える</b>設問が毎回（「代入が何回行われたか」）。",
+"6-6":"4回全部が<b>複数の配列を添字でそろえて処理</b>する型：Iremono[i]/Shurui[i]/Keiryou[i]（R7本）、Touchaku/Kaishi/Shuryou（R8本）、Bunya/Saiyou/Mondaisu（R8追）。「名称→番号の検索ループ」「分野ごとのカウント Mondaisu[b]」「累積 kanen = kanen + gomi」。",
+"6-7":"最小値探索：もし Akibi[buin] < Akibi[tantou] ならば tantou = buin（R7追）。最大値関数：Kaishi[i] = 最大値(Touchaku[i], Shuryou[i−1])（R8本）。関数「要素数」「最大値」は問題文で定義される。<b>and/or</b>で条件を組む（R8追：分野の上限未満 and 未採用）。",
+"6-9":"R8本で<b>プログラムの改変</b>が新登場：forをwhileに書き換え、初期化「taiken = 1」と加算「taiken = taiken + 1」をどこに置くか、条件「saichou < 10」を and で追加。改変後の<b>実行回数</b>（途中で止まるので減る）。センターも学会もこの型を歓迎→来年も出る。",
+"7-1":"待ち行列（R8本第3問）：開始時刻＝最大値(自分の到着, 前の人の終了)、終了＝開始＋体験時間、待ち＝開始−到着。表を埋める→式にする→プログラム。",
+"7-2":"確率的シミュレーション（R7追）：乱数1〜10で「3以下なら千円札」のように区間で分岐。手元の枚数が負＝不足。10000回のヒストグラムから「別の乱数でも全く同じ結果」は×、「不足しなかった回数の割合」を読む。",
+"7-3":"移動平均（R8追・試作参考）：幅±k日なら<b>2k+1日分</b>の平均。幅が広いほど滑らか。「6か月移動平均を4月の行に置く」など位置の読み取り。",
+"8-2":"IPv6の理由＝<b>接続機器の増加</b>（R7追）。「同一ネットワークで同じIPを割り当てる」×、「TCPは失われたデータを再送する」○、「パケットで回線を占有」×（R8追）。",
+"8-3":"メール（R8本）：ユーザ名が存在しない→<b>受信側サーバ</b>が検出、ドメイン名が存在しない→<b>送信側サーバ</b>が検出（DNSで見つからない）。宛先のIPを特定する仕組み＝DNS。",
+"8-5":"デジタル署名＝本人確認＋<b>改ざんされていないか</b>（R7追）。「送信者の公開鍵を確認して悪意を判断」は×選択肢（R8追）。パスワードのパターン数、認証コードの所有物認証も同じ設問群で。",
+"8-6":"<b>情報システムの図を読む</b>問題が2回（R7追スーパー、R8本役所）：矢印の番号＝時間順、「どの情報がどの矢印を流れるか」「連携に必要な条件」「役所の役割が「提供」から「正しさの証明」に変わる」。POSで分析できないもの＝<b>購入した理由</b>。",
+"8-7":"表形式データ（R7本）：予約を取り消す＝「日付かつ施設」の行を探して<b>行そのものを削除</b>。R8追の別表（識別番号で関連づけ）＝正規化の考え方。",
+"9-1":"尺度（R7追）：地方名＝名義、人数＝比例。オープンデータ（R8本）：誰でも入手可○、加工に利用申請必須×。<b>欠損値</b>（記録なしの「−」）を除外。表を統合するとき「行を交互に混ぜる」は×、実施年の列を足すは○。",
+"9-2":"箱ひげ図は<b>4回中3回</b>。平均値マーク付き箱ひげ図で「平均より多い年が半数以上」（中央値＞平均ならYes）。統計量の表から地点を特定。グループ分けした2つの箱ひげ図の比較。ヒストグラムが片側に偏っている→平均でなく<b>中央値で分ける</b>（R7本）。棒グラフ/帯グラフ（割合）の読み分け。",
+"9-3":"<b>相関行列・散布図は毎回</b>。相関0.99は「人口が多いほど何でも多い」だけ→<b>人口で割った指標</b>を作ると見えてくる（R7本・R7追）。散布図の正誤選択肢：「必ず」「〜すれば増える（因果）」は×、「傾向にある」は○。指標を人口で割ると順位が逆転するのは<b>人口が少ない</b>から。相関係数の表を○×で読む（R8追）。",
+"9-4":"<b>回帰直線の予測値計算は毎回</b>：9.70×0.3−0.08、1011.3×17.2−11911（概算で選ぶ）。点が直線より上＝実測＞予測。補正の判断「回帰直線より上の点だけうまく補正できる」（R8本、正答率3割）。差の符号（推定日−実際：早ければ負）。仮説検定は4回とも未出題。"
+};
+
+
+/* ================= FIGURES (inline SVG, key 講-PART) ================= */
+const SV='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 %H" style="width:100%;max-width:440px;display:block;margin:8px auto;font-family:sans-serif">';
+const FIG={
+"3-1":SV.replace('%H','150')+`<text x="200" y="16" text-anchor="middle" font-size="12" fill="#6b7280">電球3個 → 消灯/点灯の組み合わせは 2×2×2 = 8通り</text>
+${[0,1,2,3,4,5,6,7].map((n,i)=>{const b=n.toString(2).padStart(3,"0");return b.split("").map((c,j)=>`<circle cx="${28+i*48+j*12}" cy="60" r="5" fill="${c==="1"?"#f59e0b":"#e5e7eb"}" stroke="#9ca3af"/>`).join("")+`<text x="${40+i*48}" y="84" text-anchor="middle" font-size="11">${b}</text><text x="${40+i*48}" y="98" text-anchor="middle" font-size="10" fill="#6b7280">${n}</text>`}).join("")}
+<rect x="40" y="112" width="320" height="26" fill="#eef2ff" stroke="#2563eb"/>${[...Array(8)].map((_,i)=>`<rect x="${42+i*40}" y="114" width="36" height="22" fill="#fff" stroke="#93c5fd"/><text x="${60+i*40}" y="130" text-anchor="middle" font-size="12">${i%2}</text>`).join("")}<text x="200" y="148" text-anchor="middle" font-size="11" fill="#2563eb">1ビット×8 ＝ 1バイト（256通り）</text></svg>`,
+"3-2":SV.replace('%H','120')+`<text x="200" y="16" text-anchor="middle" font-size="12" fill="#6b7280">各桁の重み（右から 1, 2, 4, 8）</text>
+${["8","4","2","1"].map((w,i)=>`<text x="${80+i*70}" y="42" text-anchor="middle" font-size="13" fill="#2563eb">×${w}</text><rect x="${55+i*70}" y="50" width="50" height="34" fill="${["1","1","0","1"][i]==="1"?"#fde68a":"#f3f4f6"}" stroke="#9ca3af"/><text x="${80+i*70}" y="74" text-anchor="middle" font-size="20" font-weight="700">${["1","1","0","1"][i]}</text>`).join("")}
+<text x="200" y="108" text-anchor="middle" font-size="13">1101(2) ＝ 8 + 4 + 0 + 1 ＝ <tspan font-weight="700" fill="#dc2626">13</tspan></text></svg>`,
+"3-3":SV.replace('%H','130')+`<text x="200" y="16" text-anchor="middle" font-size="12" fill="#6b7280">2進4桁 ＝ 16進1文字</text>
+${[..."0123456789ABCDEF"].map((h,i)=>{const x=14+(i%8)*48,y=i<8?30:80;return `<rect x="${x}" y="${y}" width="44" height="40" fill="${i>=10?"#fef3c7":"#f8fafc"}" stroke="#d1d5db"/><text x="${x+22}" y="${y+16}" text-anchor="middle" font-size="12" font-weight="700">${h}</text><text x="${x+22}" y="${y+32}" text-anchor="middle" font-size="10" fill="#6b7280">${i.toString(2).padStart(4,"0")}</text>`}).join("")}</svg>`,
+"3-4":SV.replace('%H','170')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">標本化（縦線で区切る）→ 量子化（横線に丸める）→ 符号化</text>
+${[0,1,2,3,4,5,6,7].map(i=>`<line x1="30" y1="${30+i*15}" x2="370" y2="${30+i*15}" stroke="#e5e7eb"/><text x="22" y="${34+i*15}" text-anchor="end" font-size="9" fill="#9ca3af">${7-i}</text>`).join("")}
+<path d="M30,100 C70,30 110,30 150,100 S230,170 270,100 S350,30 370,60" fill="none" stroke="#2563eb" stroke-width="2"/>
+${[30,70,110,150,190,230,270,310,350].map((x,i)=>{const ys=[100,52,52,100,135,135,100,55,40];const q=Math.round((135-ys[i])/15);const yq=135-q*15;return `<line x1="${x}" y1="28" x2="${x}" y2="140" stroke="#f59e0b" stroke-dasharray="3 3"/><circle cx="${x}" cy="${ys[i]}" r="3" fill="#2563eb"/><circle cx="${x}" cy="${yq}" r="4" fill="#dc2626"/><text x="${x}" y="158" text-anchor="middle" font-size="10" fill="#dc2626">${q.toString(2).padStart(3,"0")}</text>`}).join("")}
+<text x="200" y="169" text-anchor="middle" font-size="10" fill="#6b7280">量子化3ビット（8段階）の例。標本化周波数↑・ビット数↑ ＝ 高音質・大容量</text></svg>`,
+"3-5":SV.replace('%H','170')+`<g opacity="0.85"><circle cx="160" cy="75" r="55" fill="#ef4444"/><circle cx="240" cy="75" r="55" fill="#22c55e" style="mix-blend-mode:screen"/><circle cx="200" cy="130" r="55" fill="#3b82f6" style="mix-blend-mode:screen"/></g>
+<text x="140" y="45" font-size="12" fill="#fff" font-weight="700">R</text><text x="255" y="45" font-size="12" fill="#fff" font-weight="700">G</text><text x="195" y="170" font-size="12" fill="#fff" font-weight="700">B</text>
+<text x="200" y="75" text-anchor="middle" font-size="10" fill="#333">黄</text><text x="165" y="115" text-anchor="middle" font-size="10" fill="#333">マゼンタ</text><text x="236" y="115" text-anchor="middle" font-size="10" fill="#333">シアン</text><text x="200" y="100" text-anchor="middle" font-size="10" fill="#333" font-weight="700">白</text>
+<text x="330" y="60" text-anchor="middle" font-size="12" fill="#6b7280">光の三原色</text><text x="330" y="78" text-anchor="middle" font-size="11" fill="#6b7280">加法混色</text><text x="330" y="96" text-anchor="middle" font-size="11" fill="#6b7280">全部で白</text><text x="330" y="120" text-anchor="middle" font-size="11" fill="#6b7280">各256段階</text><text x="330" y="136" text-anchor="middle" font-size="11" fill="#6b7280">＝1677万色</text></svg>`,
+"3-6":SV.replace('%H','150')+`<text x="100" y="14" text-anchor="middle" font-size="12" fill="#6b7280">ラスタ（画素の並び）</text>
+${[...Array(64)].map((_,i)=>{const x=i%8,y=Math.floor(i/8);const on=(x-3.5)**2+(y-3.5)**2<12;return `<rect x="${40+x*15}" y="${22+y*15}" width="15" height="15" fill="${on?"#2563eb":"#fff"}" stroke="#e5e7eb"/>`}).join("")}
+<text x="100" y="146" text-anchor="middle" font-size="10" fill="#6b7280">拡大するとギザギザ・写真向き</text>
+<text x="300" y="14" text-anchor="middle" font-size="12" fill="#6b7280">ベクタ（座標と形状）</text><circle cx="300" cy="80" r="52" fill="#2563eb"/><circle cx="300" cy="80" r="3" fill="#fff"/><line x1="300" y1="80" x2="352" y2="80" stroke="#fff" stroke-dasharray="3 2"/><text x="326" y="76" font-size="9" fill="#fff">r=52</text><text x="300" y="146" text-anchor="middle" font-size="10" fill="#6b7280">拡大しても劣化なし・ロゴ向き</text></svg>`,
+"3-7":SV.replace('%H','140')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">動画＝フレームの連続（fps＝1秒あたりの枚数）</text>
+${[0,1,2,3,4].map(i=>`<rect x="${20+i*76}" y="24" width="64" height="44" fill="#f8fafc" stroke="#9ca3af"/><circle cx="${32+i*12}" cy="50" r="7" fill="#f59e0b"/><text x="${52+i*76}" y="80" text-anchor="middle" font-size="9" fill="#6b7280">${i+1}枚目</text>`).join("")}
+<text x="20" y="108" font-size="12">ランレングス：</text><text x="110" y="108" font-size="12" font-family="monospace">□□□■□□□■■■■</text><text x="260" y="108" font-size="12">→</text><text x="285" y="108" font-size="12" font-family="monospace">□3■1□3■4</text>
+<text x="200" y="130" text-anchor="middle" font-size="10" fill="#6b7280">可逆（PNG/ZIP）は戻せる・非可逆（JPEG/MP3/MP4）は小さいが戻せない</text></svg>`,
+"1-3":SV.replace('%H','150')+`<rect x="150" y="8" width="100" height="26" rx="6" fill="#2563eb"/><text x="200" y="26" text-anchor="middle" font-size="12" fill="#fff">知的財産権</text>
+<line x1="200" y1="34" x2="110" y2="52" stroke="#9ca3af"/><line x1="200" y1="34" x2="290" y2="52" stroke="#9ca3af"/>
+<rect x="50" y="52" width="120" height="24" rx="5" fill="#dbeafe"/><text x="110" y="69" text-anchor="middle" font-size="11">著作権（自動発生）</text>
+<rect x="230" y="52" width="120" height="24" rx="5" fill="#fef3c7"/><text x="290" y="69" text-anchor="middle" font-size="11">産業財産権（届け出）</text>
+${["財産権：複製・公衆送信","人格権：公表・氏名・同一性","隣接権：伝える人"].map((t,i)=>`<text x="110" y="${94+i*16}" text-anchor="middle" font-size="10" fill="#374151">${t}</text>`).join("")}
+${["特許（発明）　実用新案（形状）","意匠（デザイン）","商標（マーク・音）"].map((t,i)=>`<text x="290" y="${94+i*16}" text-anchor="middle" font-size="10" fill="#374151">${t}</text>`).join("")}
+<text x="200" y="146" text-anchor="middle" font-size="10" fill="#dc2626">財産権は死後70年 ／ 人格権は譲渡不可・生存中のみ</text></svg>`,
+"1-5":SV.replace('%H','150')+`<polygon points="200,15 60,130 340,130" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="200" y="40" text-anchor="middle" font-size="12" font-weight="700">機密性</text><text x="200" y="54" text-anchor="middle" font-size="9" fill="#6b7280">許可された人だけ</text>
+<text x="95" y="118" text-anchor="middle" font-size="12" font-weight="700">完全性</text><text x="95" y="130" text-anchor="middle" font-size="9" fill="#6b7280">改ざんなし</text>
+<text x="305" y="118" text-anchor="middle" font-size="12" font-weight="700">可用性</text><text x="305" y="130" text-anchor="middle" font-size="9" fill="#6b7280">使いたい時に使える</text>
+<text x="200" y="100" text-anchor="middle" font-size="11" fill="#2563eb">CIA</text>
+<text x="200" y="146" text-anchor="middle" font-size="10" fill="#374151">認証：知識（パスワード）・所持（スマホ）・生体（指紋）→ 2種類で二要素</text></svg>`,
+"4-2":SV.replace('%H','130')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">フィッツの法則：大きい・近いほど速く指せる</text>
+<rect x="10" y="24" width="380" height="90" fill="#f8fafc" stroke="#9ca3af"/><text x="60" y="80" font-size="22">➤</text>
+<rect x="110" y="60" width="18" height="18" fill="#93c5fd"/><text x="119" y="98" text-anchor="middle" font-size="9">近い・小</text>
+<rect x="230" y="45" width="50" height="50" fill="#2563eb"/><text x="255" y="108" text-anchor="middle" font-size="9">遠い・大</text>
+<rect x="372" y="24" width="18" height="90" fill="#f59e0b"/><text x="352" y="70" text-anchor="end" font-size="9" fill="#b45309">画面端＝無限大</text>
+<text x="200" y="127" text-anchor="middle" font-size="10" fill="#374151">よく使う項目はカーソルの近くに ／ ホイールの初期値は中央値</text></svg>`,
+"5-1":SV.replace('%H','150')+`<rect x="130" y="10" width="140" height="70" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text x="200" y="28" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="700">CPU</text>
+<rect x="140" y="36" width="56" height="36" rx="4" fill="#fff" stroke="#93c5fd"/><text x="168" y="58" text-anchor="middle" font-size="11">制御</text>
+<rect x="204" y="36" width="56" height="36" rx="4" fill="#fff" stroke="#93c5fd"/><text x="232" y="58" text-anchor="middle" font-size="11">演算</text>
+<rect x="150" y="95" width="100" height="30" rx="4" fill="#fef3c7" stroke="#f59e0b"/><text x="200" y="114" text-anchor="middle" font-size="11">記憶（メモリ）</text>
+<rect x="20" y="60" width="70" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="55" y="79" text-anchor="middle" font-size="11">入力</text>
+<rect x="310" y="60" width="70" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/><text x="345" y="79" text-anchor="middle" font-size="11">出力</text>
+<line x1="90" y1="75" x2="130" y2="75" stroke="#374151" marker-end="url(#a)"/><line x1="270" y1="75" x2="310" y2="75" stroke="#374151"/><line x1="200" y1="80" x2="200" y2="95" stroke="#374151"/>
+<text x="200" y="144" text-anchor="middle" font-size="10" fill="#6b7280">メモリ＝机（速い・消える）　ストレージ＝本棚（大容量・残る）</text></svg>`,
+"5-3":SV.replace('%H','140')+`${[["AND","M20,20 h30 a20,20 0 0 1 0,40 h-30 z","両方1で1"],["OR","M20,20 q15,20 0,40 q35,-5 50,-20 q-15,-15 -50,-20 z","どちらか1で1"],["NOT","M20,20 v40 l40,-20 z","反転"]].map((g,i)=>`<g transform="translate(${20+i*130},10)"><path d="${g[1]}" fill="#fff" stroke="#1d2433" stroke-width="2"/>${g[0]==="NOT"?'<circle cx="64" cy="40" r="4" fill="#fff" stroke="#1d2433" stroke-width="2"/>':""}<line x1="5" y1="30" x2="20" y2="30" stroke="#1d2433"/><line x1="5" y1="50" x2="20" y2="50" stroke="#1d2433"/><line x1="${g[0]==="NOT"?68:70}" y1="40" x2="85" y2="40" stroke="#1d2433"/><text x="45" y="85" text-anchor="middle" font-size="12" font-weight="700">${g[0]}</text><text x="45" y="100" text-anchor="middle" font-size="10" fill="#6b7280">${g[2]}</text></g>`).join("")}<text x="200" y="134" text-anchor="middle" font-size="10" fill="#374151">半加算回路：和＝XOR、桁上がり＝AND</text></svg>`,
+"5-4":SV.replace('%H','250')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">符号付き4ビット＝16で一周する時計</text>
+<circle cx="200" cy="125" r="78" fill="none" stroke="#e5e7eb"/>
+${[...Array(16)].map((_,i)=>{const a=(i/16)*2*Math.PI-Math.PI/2;const x=200+78*Math.cos(a),y=125+78*Math.sin(a);const neg=i>=8;return `<text x="${x}" y="${y+3}" text-anchor="middle" font-size="8.5" fill="${neg?"#dc2626":"#2563eb"}">${i.toString(2).padStart(4,"0")}</text><text x="${200+100*Math.cos(a)}" y="${125+100*Math.sin(a)+3}" text-anchor="middle" font-size="9" fill="#6b7280">${neg?i-16:i}</text>`}).join("")}
+<text x="200" y="120" text-anchor="middle" font-size="10">先頭1＝負</text><text x="200" y="134" text-anchor="middle" font-size="10">反転→+1</text>
+<text x="200" y="244" text-anchor="middle" font-size="10" fill="#374151">8−6 ＝ 1000＋1010 ＝ 1<tspan fill="#9ca3af">|</tspan>0010 → あふれを捨てて 2</text></svg>`,
+"6-1":SV.replace('%H','150')+`${[["順次",60],["分岐",200],["反復",340]].map(([t,x])=>`<text x="${x}" y="14" text-anchor="middle" font-size="12" font-weight="700">${t}</text>`).join("")}
+<rect x="35" y="24" width="50" height="22" fill="#fff" stroke="#374151"/><text x="60" y="39" text-anchor="middle" font-size="10">処理1</text><line x1="60" y1="46" x2="60" y2="60" stroke="#374151"/><rect x="35" y="60" width="50" height="22" fill="#fff" stroke="#374151"/><text x="60" y="75" text-anchor="middle" font-size="10">処理2</text><line x1="60" y1="82" x2="60" y2="96" stroke="#374151"/><rect x="35" y="96" width="50" height="22" fill="#fff" stroke="#374151"/><text x="60" y="111" text-anchor="middle" font-size="10">処理3</text>
+<polygon points="200,24 240,46 200,68 160,46" fill="#fff" stroke="#374151"/><text x="200" y="50" text-anchor="middle" font-size="10">条件</text><line x1="160" y1="46" x2="140" y2="46" stroke="#374151"/><line x1="140" y1="46" x2="140" y2="90" stroke="#374151"/><rect x="115" y="90" width="50" height="22" fill="#fff" stroke="#374151"/><text x="140" y="105" text-anchor="middle" font-size="10">Yes</text><line x1="240" y1="46" x2="260" y2="46" stroke="#374151"/><line x1="260" y1="46" x2="260" y2="90" stroke="#374151"/><rect x="235" y="90" width="50" height="22" fill="#fff" stroke="#374151"/><text x="260" y="105" text-anchor="middle" font-size="10">No</text>
+<polygon points="310,24 370,24 370,40 310,40" fill="#fff" stroke="#374151"/><text x="340" y="36" text-anchor="middle" font-size="9">i=1〜n</text><line x1="340" y1="40" x2="340" y2="56" stroke="#374151"/><rect x="315" y="56" width="50" height="22" fill="#fff" stroke="#374151"/><text x="340" y="71" text-anchor="middle" font-size="10">処理</text><line x1="340" y1="78" x2="340" y2="94" stroke="#374151"/><polygon points="310,94 370,94 370,110 310,110" fill="#fff" stroke="#374151"/><text x="340" y="106" text-anchor="middle" font-size="9">繰り返し終了</text>
+<text x="200" y="142" text-anchor="middle" font-size="10" fill="#6b7280">端子＝楕円　処理＝長方形　判断＝ひし形　入出力＝平行四辺形</text></svg>`,
+"6-6":SV.replace('%H','110')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">配列 A ＝ [6, 1, 8, 3, 5]　添字は0から</text>
+${[6,1,8,3,5].map((v,i)=>`<rect x="${70+i*54}" y="28" width="50" height="40" fill="#eef2ff" stroke="#2563eb"/><text x="${95+i*54}" y="54" text-anchor="middle" font-size="18" font-weight="700">${v}</text><text x="${95+i*54}" y="84" text-anchor="middle" font-size="11" fill="#dc2626">A[${i}]</text>`).join("")}
+<text x="200" y="104" text-anchor="middle" font-size="10" fill="#374151">len(A)=5　for i in range(5) で A[0]〜A[4]</text></svg>`,
+"6-7":SV.replace('%H','150')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">待ち行列：体験時間3分、到着 0,3,4,10 分</text>
+${[0,5,10,15].map(t=>`<line x1="${60+t*20}" y1="24" x2="${60+t*20}" y2="120" stroke="#e5e7eb"/><text x="${60+t*20}" y="132" text-anchor="middle" font-size="9" fill="#9ca3af">${t}</text>`).join("")}
+${[[0,0,3],[3,3,6],[4,6,9],[10,10,13]].map((r,i)=>`<text x="40" y="${42+i*22}" text-anchor="end" font-size="10">${i+1}人目</text>${r[1]>r[0]?`<rect x="${60+r[0]*20}" y="${32+i*22}" width="${(r[1]-r[0])*20}" height="14" fill="#fecaca"/>`:""}<rect x="${60+r[1]*20}" y="${32+i*22}" width="60" height="14" fill="#93c5fd"/>`).join("")}
+<rect x="240" y="30" width="12" height="10" fill="#fecaca"/><text x="256" y="39" font-size="9">待ち</text><rect x="290" y="30" width="12" height="10" fill="#93c5fd"/><text x="306" y="39" font-size="9">体験</text>
+<text x="200" y="147" text-anchor="middle" font-size="10" fill="#374151">開始＝最大値(自分の到着, 前の終了)　終了＝開始＋3　待ち＝開始−到着</text></svg>`,
+"7-1":SV.replace('%H','130')+`<rect x="160" y="6" width="80" height="22" rx="5" fill="#2563eb"/><text x="200" y="21" text-anchor="middle" font-size="11" fill="#fff">モデル</text>
+<line x1="200" y1="28" x2="90" y2="44" stroke="#9ca3af"/><line x1="200" y1="28" x2="310" y2="44" stroke="#9ca3af"/>
+<rect x="40" y="44" width="100" height="22" rx="5" fill="#dbeafe"/><text x="90" y="59" text-anchor="middle" font-size="10">静的（時間なし）</text>
+<rect x="260" y="44" width="100" height="22" rx="5" fill="#fef3c7"/><text x="310" y="59" text-anchor="middle" font-size="10">動的（時間あり）</text>
+<line x1="310" y1="66" x2="260" y2="84" stroke="#9ca3af"/><line x1="310" y1="66" x2="360" y2="84" stroke="#9ca3af"/>
+<rect x="215" y="84" width="90" height="22" rx="5" fill="#fff" stroke="#f59e0b"/><text x="260" y="99" text-anchor="middle" font-size="10">確定的（複利）</text>
+<rect x="315" y="84" width="80" height="22" rx="5" fill="#fff" stroke="#f59e0b"/><text x="355" y="99" text-anchor="middle" font-size="10">確率的（乱数）</text>
+<text x="90" y="82" text-anchor="middle" font-size="9" fill="#6b7280">例：レイアウト図</text>
+<text x="200" y="124" text-anchor="middle" font-size="10" fill="#374151">表し方：物理（模型）・図的（フローチャート）・数理（式）</text></svg>`,
+"8-1":SV.replace('%H','130')+`<rect x="10" y="20" width="150" height="90" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-dasharray="4 2"/><text x="85" y="36" text-anchor="middle" font-size="11" fill="#2563eb">LAN（校内）</text>
+${[[30,60],[30,90],[70,90]].map(([x,y])=>`<rect x="${x}" y="${y}" width="24" height="14" fill="#fff" stroke="#374151"/>`).join("")}<rect x="100" y="70" width="30" height="16" fill="#fde68a" stroke="#374151"/><text x="115" y="82" text-anchor="middle" font-size="8">ハブ</text>
+<line x1="54" y1="67" x2="100" y2="76" stroke="#9ca3af"/><line x1="54" y1="97" x2="100" y2="80" stroke="#9ca3af"/><line x1="94" y1="97" x2="105" y2="86" stroke="#9ca3af"/>
+<rect x="175" y="58" width="44" height="22" rx="4" fill="#fecaca" stroke="#374151"/><text x="197" y="73" text-anchor="middle" font-size="9">ルータ</text><line x1="130" y1="78" x2="175" y2="69" stroke="#374151"/>
+<line x1="219" y1="69" x2="250" y2="69" stroke="#374151"/><rect x="250" y="50" width="50" height="38" rx="4" fill="#dcfce7" stroke="#374151"/><text x="275" y="73" text-anchor="middle" font-size="9">ISP</text>
+<ellipse cx="350" cy="69" rx="42" ry="28" fill="#f3f4f6" stroke="#374151"/><text x="350" y="73" text-anchor="middle" font-size="9">インターネット</text><line x1="300" y1="69" x2="308" y2="69" stroke="#374151"/>
+<text x="200" y="124" text-anchor="middle" font-size="10" fill="#374151">LAN同士をつなぐ＝WAN　外へ出る境界＝ルータ　接続を提供＝ISP</text></svg>`,
+"8-2":SV.replace('%H','140')+`${[["アプリケーション層","何を","HTTP・SMTP・POP・DNS","#dbeafe"],["トランスポート層","ミスなく","TCP（再送）・UDP（速い）","#dcfce7"],["インターネット層","誰から誰へ","IP（アドレス）","#fef3c7"],["ネットワークインタフェース層","どんな方法で","イーサネット・無線LAN","#fee2e2"]].map((r,i)=>`<rect x="10" y="${10+i*30}" width="380" height="26" rx="4" fill="${r[3]}" stroke="#9ca3af"/><text x="16" y="${27+i*30}" font-size="10" font-weight="700">${r[0]}</text><text x="185" y="${27+i*30}" font-size="9" fill="#6b7280">${r[1]}</text><text x="372" y="${27+i*30}" text-anchor="end" font-size="9">${r[2]}</text>`).join("")}
+<text x="200" y="136" text-anchor="middle" font-size="10" fill="#374151">データはパケットに小分け → ルータが経路選択（ルーティング）</text></svg>`,
+"8-3":SV.replace('%H','130')+`<rect x="20" y="40" width="80" height="40" rx="6" fill="#dbeafe" stroke="#374151"/><text x="60" y="64" text-anchor="middle" font-size="10">ブラウザ</text>
+<rect x="160" y="10" width="80" height="34" rx="6" fill="#fef3c7" stroke="#374151"/><text x="200" y="31" text-anchor="middle" font-size="10">DNSサーバ</text>
+<rect x="300" y="40" width="80" height="40" rx="6" fill="#dcfce7" stroke="#374151"/><text x="340" y="64" text-anchor="middle" font-size="10">Webサーバ</text>
+<line x1="100" y1="52" x2="160" y2="30" stroke="#374151"/><text x="120" y="34" font-size="9" fill="#2563eb">①名前は？</text><line x1="160" y1="38" x2="100" y2="62" stroke="#374151"/><text x="118" y="72" font-size="9" fill="#dc2626">②IPはこれ</text>
+<line x1="100" y1="70" x2="300" y2="70" stroke="#374151"/><text x="200" y="66" text-anchor="middle" font-size="9" fill="#2563eb">③IPアドレスで要求</text><text x="200" y="92" text-anchor="middle" font-size="9" fill="#dc2626">④ページが届く</text>
+<text x="200" y="118" text-anchor="middle" font-size="10" fill="#374151">ドメイン名 ⇄ IPアドレス の変換＝名前解決</text></svg>`,
+"8-5":SV.replace('%H','150')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">公開鍵暗号：公開鍵で閉める → 秘密鍵でだけ開く</text>
+<rect x="20" y="30" width="70" height="30" rx="5" fill="#dbeafe" stroke="#374151"/><text x="55" y="49" text-anchor="middle" font-size="10">送信者</text>
+<rect x="310" y="30" width="70" height="30" rx="5" fill="#dcfce7" stroke="#374151"/><text x="345" y="49" text-anchor="middle" font-size="10">受信者</text>
+<text x="200" y="40" text-anchor="middle" font-size="9" fill="#6b7280">受信者の公開鍵🔓で暗号化</text><line x1="90" y1="50" x2="310" y2="50" stroke="#374151"/><text x="200" y="64" text-anchor="middle" font-size="9" fill="#dc2626">秘密鍵🔑で復号</text>
+<text x="200" y="92" text-anchor="middle" font-size="12" fill="#6b7280">デジタル署名：秘密鍵で署名 → 公開鍵で検証</text>
+<text x="70" y="115" text-anchor="middle" font-size="9">文書→ハッシュ値</text><text x="200" y="115" text-anchor="middle" font-size="9">送信者の秘密鍵で署名</text><text x="330" y="115" text-anchor="middle" font-size="9">公開鍵で戻して照合</text>
+<text x="200" y="142" text-anchor="middle" font-size="10" fill="#374151">一致＝本人＋改ざんなし　公開鍵の本物性は認証局（CA）が証明</text></svg>`,
+"8-7":SV.replace('%H','130')+`${[["選択（行）","#fecaca",[[1,0],[1,1],[1,2]].filter(x=>x[1]===1)],["射影（列）","#bfdbfe",[[0,0],[0,1],[0,2],[0,3]]],["結合（表＋表）","#bbf7d0",[]]].map((g,k)=>`<text x="${65+k*135}" y="14" text-anchor="middle" font-size="11" font-weight="700">${g[0]}</text>${[...Array(4)].map((_,r)=>[...Array(3)].map((_,c)=>{const hl=k===0?r===1:k===1?c===0:c<2;return `<rect x="${22+k*135+c*28}" y="${22+r*18}" width="28" height="18" fill="${hl?g[1]:"#fff"}" stroke="#9ca3af"/>`}).join("")).join("")}${k===2?`<rect x="${22+k*135+56}" y="22" width="40" height="72" fill="#bbf7d0" stroke="#16a34a" stroke-dasharray="3 2"/><text x="${22+k*135+76}" y="62" text-anchor="middle" font-size="9">別表</text>`:""}`).join("")}
+<text x="200" y="118" text-anchor="middle" font-size="10" fill="#374151">主キーで行を識別・外部キーで別表と関連付け（重複をなくす＝正規化）</text></svg>`,
+"9-2":SV.replace('%H','130')+`<line x1="40" y1="60" x2="90" y2="60" stroke="#374151"/><line x1="40" y1="45" x2="40" y2="75" stroke="#374151"/><rect x="90" y="40" width="160" height="40" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/><line x1="150" y1="40" x2="150" y2="80" stroke="#dc2626" stroke-width="2"/><line x1="250" y1="60" x2="320" y2="60" stroke="#374151"/><line x1="320" y1="45" x2="320" y2="75" stroke="#374151"/><circle cx="360" cy="60" r="4" fill="none" stroke="#374151"/><text x="180" y="66" font-size="12" fill="#f59e0b">×</text>
+${[["最小",40],["Q1",90],["中央値",150],["Q3",250],["最大",320],["外れ値",360]].map(([t,x])=>`<text x="${x}" y="98" text-anchor="middle" font-size="9" fill="#374151">${t}</text>`).join("")}
+<text x="200" y="26" text-anchor="middle" font-size="11" fill="#6b7280">箱の長さ＝四分位範囲（IQR）　箱から1.5IQR以上離れると外れ値</text>
+<text x="200" y="122" text-anchor="middle" font-size="10" fill="#374151">×＝平均値。中央値＞平均なら「平均より多い年が半数以上」</text></svg>`,
+"9-3":SV.replace('%H','140')+`${[["正の相関",30,(i)=>[40+i*7,100-i*5.5]],["負の相関",160,(i)=>[170+i*7,45+i*5.5]],["相関なし",290,(i)=>[300+(i*37)%80,45+(i*53)%60]]].map(([t,x,f])=>`<text x="${x+45}" y="20" text-anchor="middle" font-size="11" font-weight="700">${t}</text><line x1="${x}" y1="110" x2="${x+95}" y2="110" stroke="#9ca3af"/><line x1="${x}" y1="30" x2="${x}" y2="110" stroke="#9ca3af"/>${[...Array(12)].map((_,i)=>{const [px,py]=f(i);return `<circle cx="${px+(i*13)%9-4}" cy="${py+(i*7)%9-4}" r="3" fill="#2563eb"/>`}).join("")}`).join("")}
+<text x="200" y="134" text-anchor="middle" font-size="10" fill="#374151">相関係数 −1〜1　|r|≥0.7で強い　相関≠因果（第3の原因＝交絡因子）</text></svg>`,
+"9-4":SV.replace('%H','150')+`<line x1="40" y1="120" x2="220" y2="120" stroke="#9ca3af"/><line x1="40" y1="20" x2="40" y2="120" stroke="#9ca3af"/><line x1="45" y1="105" x2="215" y2="35" stroke="#dc2626" stroke-width="2"/>
+${[[60,95],[85,75],[110,88],[135,60],[160,68],[185,40],[205,50]].map(([x,y])=>{const yl=105-(x-45)*70/170;return `<line x1="${x}" y1="${y}" x2="${x}" y2="${yl}" stroke="#f59e0b" stroke-dasharray="2 2"/><circle cx="${x}" cy="${y}" r="3.5" fill="#2563eb"/>`}).join("")}
+<text x="130" y="140" text-anchor="middle" font-size="10">回帰直線 Y=aX+b（残差の二乗和が最小）</text><text x="130" y="18" text-anchor="middle" font-size="9" fill="#dc2626">直線より上の点＝実測＞予測</text>
+<path d="M250,110 C280,110 290,30 320,30 S360,110 390,110" fill="none" stroke="#2563eb" stroke-width="2"/><path d="M360,110 L360,58 C372,70 380,95 390,110 Z" fill="#fecaca"/><text x="320" y="24" text-anchor="middle" font-size="10">仮説検定</text><text x="372" y="125" text-anchor="middle" font-size="8" fill="#dc2626">p<5%→棄却</text><text x="320" y="140" text-anchor="middle" font-size="8" fill="#374151">帰無仮説「平均100g」vs 対立仮説</text></svg>`,
+"1-2":SV.replace('%H','110')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">同じデータでもグラフの見せ方で印象が変わる</text>
+<line x1="30" y1="95" x2="180" y2="95" stroke="#9ca3af"/><line x1="30" y1="30" x2="30" y2="95" stroke="#9ca3af"/><text x="18" y="34" font-size="8" fill="#dc2626">1400</text><text x="18" y="96" font-size="8" fill="#dc2626">1300</text><polyline points="45,85 80,70 115,55 150,35" fill="none" stroke="#2563eb" stroke-width="2"/><text x="105" y="108" text-anchor="middle" font-size="9" fill="#dc2626">0から始まっていない→急増に見える</text>
+<line x1="220" y1="95" x2="370" y2="95" stroke="#9ca3af"/><line x1="220" y1="30" x2="220" y2="95" stroke="#9ca3af"/><text x="212" y="34" font-size="8">1400</text><text x="215" y="96" font-size="8">0</text><polyline points="235,32 270,31 305,30.5 340,30" fill="none" stroke="#2563eb" stroke-width="2"/><text x="295" y="108" text-anchor="middle" font-size="9">0から→ほぼ横ばい</text></svg>`,
+"2-1":SV.replace('%H','100')+`<rect x="20" y="20" width="160" height="60" rx="6" fill="#fef3c7" stroke="#f59e0b"/><text x="100" y="42" text-anchor="middle" font-size="11" font-weight="700">マスメディア</text><text x="100" y="60" text-anchor="middle" font-size="9">特定の発信者→不特定多数</text><text x="100" y="74" text-anchor="middle" font-size="9" fill="#6b7280">TV・新聞・一方向</text>
+<rect x="220" y="20" width="160" height="60" rx="6" fill="#dbeafe" stroke="#2563eb"/><text x="300" y="42" text-anchor="middle" font-size="11" font-weight="700">ソーシャルメディア</text><text x="300" y="60" text-anchor="middle" font-size="9">多数が共同で作り発信</text><text x="300" y="74" text-anchor="middle" font-size="9" fill="#6b7280">SNS・双方向・偽情報も</text>
+<text x="200" y="96" text-anchor="middle" font-size="10" fill="#374151">信ぴょう性→一次情報か／複数の情報源でクロスチェック</text></svg>`,
+"7-2":SV.replace('%H','110')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">乱数（0〜1）を累積相対度数の区間に当てはめる</text>
+${[[0,0.12,"0分","#dbeafe"],[0.12,0.26,"1分","#bfdbfe"],[0.26,0.42,"2分","#93c5fd"],[0.42,0.64,"3分","#60a5fa"],[0.64,0.82,"4分","#3b82f6"],[0.82,1,"5分〜","#2563eb"]].map(r=>`<rect x="${30+r[0]*340}" y="30" width="${(r[1]-r[0])*340}" height="26" fill="${r[3]}" stroke="#fff"/><text x="${30+(r[0]+r[1])/2*340}" y="47" text-anchor="middle" font-size="9" fill="${r[0]>0.4?"#fff":"#1d2433"}">${r[2]}</text><text x="${30+r[1]*340}" y="68" text-anchor="middle" font-size="8" fill="#6b7280">${r[1]}</text>`).join("")}
+<line x1="${30+0.35*340}" y1="24" x2="${30+0.35*340}" y2="60" stroke="#dc2626" stroke-width="2"/><text x="${30+0.35*340}" y="20" text-anchor="middle" font-size="9" fill="#dc2626">乱数0.35→2分</text>
+<text x="200" y="98" text-anchor="middle" font-size="10" fill="#374151">試行回数を増やすほど分布は理論値に近づく（毎回同じ結果にはならない）</text></svg>`,
+"6-9":SV.replace('%H','120')+`<text x="200" y="14" text-anchor="middle" font-size="12" fill="#6b7280">トレース表：変数ごとに列を作り1行ずつ追う</text>
+<text x="40" y="34" font-size="10" fill="#6b7280">s=0 / i を1から4まで: s=s+i</text>
+${["i","s"].map((h,c)=>`<rect x="${120+c*60}" y="42" width="60" height="18" fill="#eef2ff" stroke="#9ca3af"/><text x="${150+c*60}" y="55" text-anchor="middle" font-size="10" font-weight="700">${h}</text>`).join("")}
+${[[1,1],[2,3],[3,6],[4,10]].map((r,i)=>r.map((v,c)=>`<rect x="${120+c*60}" y="${60+i*14}" width="60" height="14" fill="#fff" stroke="#e5e7eb"/><text x="${150+c*60}" y="${71+i*14}" text-anchor="middle" font-size="10">${v}</text>`).join("")).join("")}
+<text x="300" y="80" text-anchor="middle" font-size="10" fill="#dc2626">DNCLは終了値を含む（4回）</text></svg>`
 };
 
 /* ================= NOTES (講 → PART → bullets) ================= */
@@ -974,16 +1138,116 @@ const Q=[
 [9,3,"散布図・相関行列で、対角線の部分に描かれるものは？",["散布図","相関係数","各項目のヒストグラム","箱ひげ図"],2,"下三角に相関係数、上三角に散布図。",1],
 [9,3,"エアコンの売上データと、nか月ずらしたデータの相関係数がn=12で最大になった。分かることは？",["売上は12か月周期で変化している","売上は毎月増えている","12月に最も売れる","相関はない"],0,"季節変動。",1],
 [9,4,"「学業時間（X）と睡眠時間（Y）」の散布図に回帰直線 Y=−0.5X+480 を引いた。X=100の県の実際のYが450のとき、回帰直線との関係は？",["直線より上（予測より多く寝ている）","直線より下（予測より寝ていない）","直線上","判断できない"],0,"予測値430 < 実測450。",1],
-[9,1,"都道府県別・スマホ使用時間別の「睡眠」「学業」などの平均時間の表がある。「スマホ使用時間が長い群ほど学業時間が短い」と言うために必要な比較は？",["同じ都道府県で、使用時間の群ごとの学業時間を比べる","北海道と沖縄の睡眠時間を比べる","睡眠と食事の時間を比べる","1つの県だけ見る"],0,"比較したい要因以外をそろえる。",1]
+[9,1,"都道府県別・スマホ使用時間別の「睡眠」「学業」などの平均時間の表がある。「スマホ使用時間が長い群ほど学業時間が短い」と言うために必要な比較は？",["同じ都道府県で、使用時間の群ごとの学業時間を比べる","北海道と沖縄の睡眠時間を比べる","睡眠と食事の時間を比べる","1つの県だけ見る"],0,"比較したい要因以外をそろえる。",1],
+/* ---- 共テ型 追加（R7本・R7追・R8本・R8追の型） ---- */
+[3,1,"24時間制の「時」と「分」をそれぞれ別のビット列で表す。最小のビット数の合計は？",["9","10","11","12"],2,"時0〜23→5ビット（2⁵=32）、分0〜59→6ビット（2⁶=64）。",1],
+[3,1,"曜日（7種類）と時（24種類）を別々に最小ビットで表すと合計何ビット？",["7","8","9","10"],1,"曜日3ビット（2³=8≥7）＋時5ビット。",1],
+[3,1,"7本の棒状LEDで数字を表示する部品がある。全消灯を含めて点灯パターンは全部で何通り？",["7","14","49","128"],3,"各LEDがON/OFFなので2⁷。",1],
+[3,1,"大文字7種・小文字6種・数字10種を使い、1桁目大文字、2桁目小文字、3桁目以降数字でエラーコードを作る。5000種類以上表すには最低何桁必要？",["3桁","4桁","5桁","6桁"],2,"7×6=42。42×10=420、×10=4200（4桁）では足りず、×10=42000（5桁）。",1],
+[3,1,"地図を正方形タイルに分割する。レベルkでは全体を2ᵏ×2ᵏ枚に分け、どのレベルでもタイルは256×256画素。同じ範囲をレベル17の代わりに2段階粗いレベル15で表示すると、タイル枚数は？",["1/2","1/4","1/8","1/16"],3,"1段階粗くなるごとに枚数は1/4。2段階で1/16。",1],
+[3,1,"上の地図で、レベル17のタイル1辺が300mのとき、1辺が1.2kmになるレベルは？",["15","16","18","19"],0,"1段階粗くなると1辺は2倍。300→600→1200mで2段階。",1],
+[3,2,"4×4マスの図案を、縫うマス=1、縫わないマス=0で各行4ビットにし、上から順に16進1文字ずつ並べて表す。「1000 1100 1000 1111」の図案は？",["8C8F","1C1F","8A8F","F8C8"],0,"1000=8, 1100=C, 1000=8, 1111=F。",1],
+[3,2,"上の図案「8C8F」に対して「16進全体の桁を逆順にする」変換をすると？",["F8C8","8C8F","7371","1313"],0,"文字列の並びを逆にするだけ。",1],
+[3,2,"各行の2進4桁の「桁を逆順にする」変換を、行「1000」に行うと？",["0001","1000","0111","1110"],0,"左右反転。",1],
+[3,3,"ラーメンの注文をスープ（千の位）・麺（百の位）・トッピング（十の位と一の位の合計）の数値で送る。トッピングを玉子1・コーン2・のり4・メンマ8としたとき、異なる組み合わせを識別できる理由は？",["合計がすべて異なる値になるから","値が小さいから","偶数だから","順番に並んでいるから"],0,"2のべき乗にすると、どの組み合わせも和が一意（2進のビット）。",1],
+[3,3,"トッピングの数値を十の位と一の位（00〜99）で表し、各具材に2のべき乗を割り当てて組み合わせを識別する。最大で何種類の具材を区別できる？",["6","7","8","99"],0,"1+2+4+8+16+32=63≤99だが、+64=127>99。よって6種類。",1],
+[3,5,"1画素4ビットのグレースケール画像で、白1111の点と1010の点をビットごとにOR演算した結果は？",["1010","1111","0101","0000"],1,"どちらかが1なら1。白とORすると必ず白。",1],
+[3,5,"黒0000の点と0110の点をビットごとにOR演算した結果は？",["0000","0110","1001","1111"],1,"0とORすると元のまま。",1],
+[3,5,"キャラクターの部分を白1111、背景を黒0000にしたマスク画像がある。キャラクター画像だけを残し背景を黒にするには、元画像とマスクにどの演算を行うか。",["OR","AND","NOT","XOR"],1,"1とANDで元のまま、0とANDで0（黒）。",1],
+[3,5,"マスク画像の白と黒を入れ替えるには？",["AND演算","OR演算","NOT演算","加算"],2,"ビット反転。",1],
+[3,5,"背景が一色でない画像から背景だけを選択したい。画像編集ソフトの階調ヒストグラムで何を見るか。",["背景の階調が集中している範囲","画素数の合計","最も明るい1点","画像の縦横比"],0,"背景の階調の山の範囲を指定して選択する。",1],
+[3,6,"1920×1080・24ビットカラー・60fpsの動画を次の3つの方法で変換した。データ量が小さい順に並べると？\nあ：縦横の画素数をそれぞれ1/2　い：30fpsにする　う：256階調グレースケールにする",["あ＜う＜い","い＜う＜あ","あ＜い＜う","う＜い＜あ"],0,"あ=1/4、う=1/3、い=1/2。",1],
+[3,7,"1時間・24fps・1920×1080・24ビットフルカラーの動画を圧縮なしで保存したときのデータ量を求める式は？",["1920×1080×3×24×3600 バイト","1920×1080×24×24×3600 バイト","1920×1080×3×60×60 バイト","1920×1080×3×24 バイト"],0,"1フレーム=1920×1080×3バイト。総フレーム数=24×3600。",1],
+[3,7,"24fpsで撮影した動画の全フレームをそのまま並べて60fpsの動画にすると？",["再生時間が2.5倍になる","再生時間が0.4倍になる","再生時間は変わらず高精細になる","再生時間は変わらず粗くなる"],1,"同じ枚数を速く表示するので短くなる。24/60=0.4。",1],
+[3,7,"フレーム間で変化した部分だけを記録してデータ量を減らす方法を使う。三脚に固定したカメラで列車を撮った動画Ⅰと、列車を追って撮った動画Ⅱでは？",["Ⅰの方がデータ量が少ない","Ⅱの方がデータ量が少ない","同じ","fpsによる"],0,"Ⅱは毎フレーム画像全体が変化する。",1],
+[3,7,"動画に関する説明で正しいものは？",["ストリーミングを使えばデータの欠落を防げる","1920×1080で撮影した動画は同じ解像度のディスプレイでしか再生できない","各フレームを静止画として非可逆圧縮すれば動画全体を圧縮できる","動画は圧縮できない"],2,"ストリーミングは順次再生の技術、欠落防止ではない。",1],
+[3,7,"文字列 GTTGTTATTGTTGTT で、GTTをα、ATTをβに置き換えると？",["ααβαα","αβααα","αααβα","ββαββ"],0,"パターン置換で短く表す（圧縮の考え方）。",1],
+[3,4,"24fpsの動画に48kHzで音声を収録した。1フレームを表示する間に1チャンネルあたり何回標本化されるか。",["0.5回","2回","500回","2000回"],3,"48000÷24。",1],
+[3,8,"アンケート結果の「良かった企画」を、企画の一覧表（識別番号・形態・内容）の識別番号で置き換えた。この方法の利点として適当でないものは？",["表全体のデータ量を削減できる","表記ゆれを気にせず入力できる","識別番号の平均や標準偏差を計算できる","データの修正が容易になる"],2,"識別番号は名義尺度。平均に意味はない。",1],
+[3,8,"10年前と今回のアンケート結果を1つの表にまとめる。適当でない処理は？",["10年前の年齢を切り捨てて年齢層に置き換える","10年前の住所の町名を削る","実施年の列を追加する","2つの表の行を交互に混ぜる"],3,"どちらの回答か分からなくなる。年の列で区別する。",1],
+[4,1,"会議の記録で、見出しは行頭「*」、箇条書きは「‒」、補足は「#」、自分用メモは「/」と決めた。議事録にするときの装飾として適当なものは？",["「*」の行を大きく太くして目立たせる","「‒」の行を薄くして目立たなくする","「/」の行を太くして目立たせる","全部同じ書体にする"],0,"見出しは目立たせ、補足は目立たなくする。メモは他人に見せない。",1],
+[4,1,"議事録の階層構造を分かりやすくする工夫として最も適当なものは？",["多種類のフォントと色を使う","行間を狭くして1ページに収める","小見出しとその内容にインデントを設定する","固有名詞を伏せ字にする"],2,"構造化＝階層をインデントで示す。",1],
+[4,2,"マウスで対象を指す時間は「対象が大きいほど・近いほど短い」。画面の端にある対象は？",["実質的に大きさが無限大とみなせる","小さいとみなす","指せない","距離が0になる"],0,"カーソルが端で止まるので行き過ぎない。",1],
+[4,2,"右クリックメニューで、利用頻度の高い項目はどこに配置するのが合理的か。",["カーソルの位置から遠い場所","カーソルの位置に近い場所","一番目立つ色の場所","ランダム"],1,"距離が短いほど速く選べる。",1],
+[4,2,"生年をホイールでスクロール入力する。スクロール距離の平均を最小にする初期値は、登録者の生年分布の？",["中央値","最頻値","範囲の中央","最大値"],0,"絶対偏差の和を最小にするのは中央値。",1],
+[4,2,"誕生月（1〜12、12の次は1に戻る円環リスト）をスクロール入力する。分布に偏りがないとき、初期値をどこにするとスクロール距離の平均が最小？",["1","12","6か7","どの月でも同じ"],3,"円環なのでどこから始めても距離の分布は同じ。",1],
+[1,5,"パスワードが10文字固定、英大文字26・小文字26・数字10が使えるとき、パターン数は？",["62×10","62¹⁰","10⁶²","26¹⁰+10¹⁰"],1,"文字種^文字数。",1],
+[1,5,"パスワードが5文字から10文字に増えると、パターン数は何倍？（文字種62）",["2倍","62倍","62⁵倍","5倍"],2,"62¹⁰÷62⁵。",1],
+[1,5,"「パスワード」と「毎回スマホに届く認証コード」の認証方法の組み合わせは？",["知識認証と所有物認証","知識認証と生体認証","所有物認証と知識認証","生体認証と所有物認証"],0,"コードはスマホ（所有物）に届く。",1],
+[1,5,"パスワードと認証コードの両方を使う利点は？",["脆弱なパスワードを禁止できる","入力文字を画面に表示しない","パスワードを忘れても復元できる","パスワードが漏洩しても不正ログインのリスクを減らせる"],3,"多要素認証の目的。",1],
+[1,5,"会員証の不正複製を抑制する効果が期待できない方式は？",["ICチップ入りカード","ホログラム入りの特殊紙","会員情報を埋め込んだ二次元コードのPDF","アプリでログイン中だけ有効"],2,"PDFはコピーし放題。",1],
+[1,5,"会員登録の際、情報セキュリティの観点で適当な行動は？",["公衆無線LANを使う","図書館の共有パソコンを使う","周囲からのぞき見されていないか注意する","IDとパスワードを印刷して掲示する"],2,"ショルダーハッキング対策。",1],
+[1,5,"情報セキュリティに関する記述として正しいものは？",["通信速度を上げるとマルウェア被害を抑えられる","メモリを増設するとソーシャルエンジニアリングを防げる","バックアップをとることで可用性を高められる","ファイアウォールで無線LANの盗聴を防げる"],2,"可用性＝使いたいときに使える。",1],
+[1,4,"「過去の不適切な投稿はすぐ削除すれば拡散しない」「自宅近くの写真から場所を特定されうる」「写真に位置情報が含まれることがある」の正誤は？",["正・正・正","誤・正・正","正・誤・正","誤・誤・誤"],1,"削除前にコピーされていれば拡散する。",1],
+[1,4,"SNSの投稿「学校の正門の向かいに○○コーヒーがオープン」と、店舗一覧の所在地から特定できるのは？",["氏名","所属学校名","居住市町村","生年月日"],1,"店の住所＋正門の向かい＝学校。",1],
+[1,4,"ファンクラブのプライバシーポリシーに「第三者に提供しないが、利用目的のための業務委託は除く」とある。問題となりうる事例は？",["関連会社に委託して年齢層を分析する","関連会社に委託してチラシを郵送する","会員同士がメールアドレスを閲覧できるシステムを提供する","イベントの告知に使う"],2,"会員同士＝第三者提供。",1],
+[1,4,"ピースサインの写真から指紋が読み取られる事例が可能になった技術の進歩は？",["通信速度の高速化","カメラの高解像度化","生体認証の性能向上","画像生成技術"],1,"細部まで写るようになった。",1],
+[1,4,"「T株式会社」を名乗る見知らぬアカウントからアンケートのURL付きメッセージが届いた。とるべき対応は？",["真偽確認のためURLを開く","内容を確認したと返信する","送信者の公開鍵を確認する","悪意を想定して反応しない"],3,"フィッシングの典型。",1],
+[8,2,"128ビットのIPアドレス（IPv6）が使われるようになった理由は？",["無線LANに対応するため","大容量データに対応するため","インターネットに直接接続する機器が増えたため","漢字のドメイン名に対応するため"],2,"IPv4の約43億個では足りない。",1],
+[8,2,"情報通信ネットワークの説明として正しいものは？",["同一ネットワーク内の機器には同一のIPアドレスを割り当てる","ルータ・ハブ・DNSサーバがなければLANは作れない","TCPには失われたデータを送り直す機能がある","パケット交換ではデータを結合して回線を占有する"],2,"IPは機器ごとに固有。パケットは回線を占有しない。",1],
+[8,3,"kaoru@example.ac.jp から shinobu@example.ed.jp へ送るとき、宛先を sinobu@example.ed.jp と間違えた。届かないことを最初に検出するのは？",["送信側サーバ（ドメイン名が存在しない）","受信側サーバ（ユーザ名が存在しない）","送信側サーバ（ユーザ名が存在しない）","受信側サーバ（ドメイン名が存在しない）"],1,"ドメインは正しいので受信側サーバまで届き、そこでユーザ名がないと分かる。",1],
+[8,3,"宛先を shinobu@exmple.ed.jp と間違えた（ドメインの綴りミス）。最初に検出するのは？",["送信側サーバ（受信側のドメイン名が存在しない）","受信側サーバ（ユーザ名が存在しない）","受信側サーバ（ドメイン名が存在しない）","どこでも検出できない"],0,"送信側サーバがDNSで宛先サーバを探せない。",1],
+[8,3,"メール送信の過程で通信先のIPアドレスを特定する仕組みは？",["DNS","WWW","パケット通信","ルーティング"],0,"ドメイン名→IPアドレス。",1],
+[8,5,"デジタル署名で確認できることは？",["複製されていないか","暗号化されているか","改ざんされていないか","盗聴されていないか"],2,"本人確認と改ざん検知。",1],
+[8,6,"スーパーのレシートには購入時刻・店コード・商品コード・ポイント会員IDなどがある。「時間帯ごとの総売上額」を分析するのに必要なのは購入時刻と？",["店コード","購入した商品の合計金額","レジの番号","担当店員名"],1,"時間帯×金額。",1],
+[8,6,"ポイント会員情報（名前・性別・生年）とレシート情報を組み合わせても得られない情報は？",["顧客が商品を購入した理由","繰り返し購入される商品","ある商品を多く買う年齢層","性別ごとの来店時間帯"],0,"理由はデータに記録されていない。",1],
+[8,6,"ネットショッピングにログインしたとき「ポイント数と自宅に近い実店舗のチラシ」を表示するために必要な条件は？",["会員IDとネットのアカウントが対応付けられている","ネットの商品に店舗の商品コードが付いている","商品コードと店コードから在庫が分かる","上の3つすべて"],0,"会員IDが分かればポイントと住所が分かる。",1],
+[8,6,"役所が発行する住民証明を、請求者がPCでダウンロードして提出先に送る仕組みにした。改良前（コンビニで印刷）と比べた特徴は？",["自宅や出先から請求できる","デジタルデバイドが解消される","請求者が操作しなくても提出先が入手できる","コンビニに行く必要がある"],0,"「誰でも簡単に」はPCが必要なので×。",1],
+[8,6,"住民証明の電子データを請求者が改変できないよう、役所がアクセスコードを発行し、提出先がそのコードで役所から直接入手する方式にした。改良前と異なる点は？",["請求者が内容を見られる","提出先が内容を見られる","請求者が住民証明を送る必要がない","役所が提供する必要がない"],2,"提出先が役所から直接取る。",1],
+[8,6,"さらに、提出先が「確認依頼コード＋申告された住民情報」を役所に送り、役所が正しいかどうかだけ返す方式にした。役所の役割はどう変わったか。",["住民情報を提供する→正しさを証明する","正しさを証明する→提供する","削除する→提供する","電子化する→削除する"],0,"コードが漏れても住民情報は流出しない。",1],
+[8,7,"施設予約を「日付・施設・団体」の3列の表で管理している。7月4日の武道場の予約を取り消すには？",["日付が7月4日の行を探して施設のマスを消す","日付が7月4日かつ施設が武道場の行を探してその行を削除する","団体名が柔道部の行を全部削除する","武道場の列を削除する"],1,"レコード単位で削除。",1],
+[8,7,"上の表形式で、柔道部が7月4日の武道場を予約可能か確認するには？",["日付が7月4日かつ施設が武道場の行がないことを確認する","団体が柔道部の行がないことを確認する","表の末尾を見る","武道場の列が空白か見る"],0,"同じ日・同じ施設の行があれば予約済み。",1],
+[7,2,"10人から集金する。乱数r（1〜10）が3以下なら千円札6枚、4以上なら一万円札で支払う（おつり4千円札）。この乱数の使い方は「千円札で払う確率」を何%と想定しているか。",["30%","40%","60%","70%"],0,"3/10。",1],
+[7,2,"上のシミュレーションで手元の千円札が−6枚になった。意味は？",["6枚余っている","おつり用の千円札が6枚不足している","6人が千円札で払った","誤り"],1,"負＝不足枚数。",1],
+[7,2,"上を10000回行い「手元の千円札の最小値」のヒストグラムを作った。考察として正しいものは？",["別の乱数で10000回やっても結果は全く同じになる","最小値が0（不足なし）だった回数の割合が読み取れる","全員一万円で払うケースは絶対に起きない","乱数は不要"],1,"乱数なので毎回少し違う。",1],
+[7,2,"事前に千円札を20枚用意した場合、起こりえないケースは？",["最初の2人が千円札で払っても途中で不足する","用意した千円札を使わずに終える","千円札で払った人が5人いて途中で不足する","一万円札の人が6人いて不足せず終える"],2,"5人が千円札（+30枚）なら一万円5人分（−20枚）を賄える。",1],
+[6,6,"生徒40人分の「入れ物」「種類」「重量」を配列Iremono・Shurui・Keiryouに格納する。出席番号nの生徒の種類を入力するのは？\n表示する(\"ごみの種類は？\")\n（　） = 【整数を入力】",["Shurui[n]","Shurui[1]","Iremono[n]","Keiryou[n]"],0,"配列を出席番号でそろえる。",1],
+[6,6,"次のDNCLで、可燃ごみ（Shurui=1）の総重量を集計する行は？\ni を 1 から ninzu まで 1 ずつ増やしながら繰り返す:\n  もし Iremono[i] == 1 ならば:\n    gomi = Keiryou[i] − 350\n  そうでなければ:\n    gomi = Keiryou[i]\n  もし Shurui[i] == 1 ならば:\n    （　）",["kanen = kanen + gomi","kanen = gomi","kanen = Keiryou[i]","gomi = kanen + gomi"],0,"累積。",1],
+[6,6,"名称の配列 Namae=[\"可燃\",\"不燃\",\"ペットボトル\",…]（添字1〜7）から、入力された名称 meishou の番号を求める。\nj を 1 から 7 まで 1 ずつ増やしながら繰り返す:\n  もし Namae[j] == meishou ならば:\n    Shurui[n] = （　）",["j","meishou","Namae[j]","7"],0,"一致した添字が番号。",1],
+[6,6,"配列Bunya に各問題の分野番号（0〜5）が入っている。分野ごとの採用数 Mondaisu を数えるとき、i番目の問題を採用したら実行する行は？\nb = Bunya[i]",["Mondaisu[b] = Mondaisu[b] + 1","Mondaisu[i] = Mondaisu[i] + 1","Mondaisu[b] = 1","b = b + 1"],0,"分野番号を添字にしてカウント。",1],
+[6,6,"上で「その分野の採用数が最大数 saidai 未満なら採用する」条件は？",["Mondaisu[b] < saidai","Mondaisu[i] < saidai","Mondaisu[b] == 0","Mondaisu[b] > saidai"],0,"",1],
+[6,6,"添字が0から始まる配列Bunya の全要素を処理する繰り返しの終了値は？（関数 要素数(配列) が使える）",["要素数(Bunya) − 1","要素数(Bunya)","saidai − 1","0"],0,"0〜要素数−1。",1],
+[6,7,"部員が空きになる日を配列Akibi（添字1〜3）で管理。最も早く空く部員番号を tantou に求める。\ntantou = 1\nbuin を 2 から buinsu まで 1 ずつ増やしながら繰り返す:\n  もし （　） ならば:\n    tantou = buin",["Akibi[buin] < Akibi[tantou]","buin < tantou","Akibi[buin] > Akibi[tantou]","buin > tantou"],0,"最小値探索。",1],
+[6,7,"上で Akibi=[5,6,4,4,4]、buinsu=5 のとき tantou=buin の代入は何回行われるか。",["1回","2回","3回","4回"],0,"buin=2:6<5×、3:4<5○(tantou=3)、4:4<4×、5:4<4×。1回。",1],
+[6,7,"来訪者の開始時刻＝「自分の到着時刻」と「前の人の終了時刻」の遅い方。関数 最大値(x,y) を使って書くと？",["Kaishi[i] = 最大値(Touchaku[i], Shuryou[i−1])","Kaishi[i] = 最大値(Touchaku[i], Shuryou[i])","Kaishi[i] = 最大値(Touchaku[i−1], Shuryou[i−1])","Kaishi[i] = Touchaku[i] + Shuryou[i−1]"],0,"",1],
+[6,7,"上で終了時刻と待ち時間は？（体験時間 taiken）",["終了=Kaishi[i]+taiken、待ち=Kaishi[i]−Touchaku[i]","終了=Touchaku[i]+taiken、待ち=Shuryou[i]−Kaishi[i]","終了=Kaishi[i]+Touchaku[i]、待ち=taiken","終了=Shuryou[i−1]+taiken、待ち=0"],0,"",1],
+[6,7,"最長待ち時間 saichou を求める。空欄は？\nsaichou = 0\ni を 1 から kyakusu まで 1 ずつ増やしながら繰り返す:\n  saichou = 最大値(（　）, Kaishi[i] − Touchaku[i])",["saichou","Kaishi[i]","Touchaku[i]","0"],0,"今までの最大と比べて更新。",1],
+[6,9,"「taiken を 1 から 15 まで」の繰り返しを「最長待ち時間が10分以上になったら止める」ように while に書き換える。条件は？\n(taiken <= 15) and (（　）) の間繰り返す:",["saichou < 10","saichou > 10","taiken < 10","taiken > 10"],0,"10未満の間は続ける。",1],
+[6,9,"上の書き換えで「taiken = 1」と「saichou = 0」はどこに置くか。",["繰り返しの前","繰り返しの中の先頭","繰り返しの中の末尾","置かない"],0,"初期化は1回だけ。加算 taiken = taiken + 1 は繰り返しの末尾。",1],
+[6,9,"for版では初期化処理が15回実行された。while版で体験時間3分のとき初めて最長待ち時間が10分以上になった場合、初期化処理の実行回数は？",["2回","3回","4回","15回"],1,"taiken=1,2,3で3回目に条件が偽になり止まる。",1],
+[6,9,"次のDNCLで代入 Saiyou[i] = c が行われた回数として、出力「番号2の問題を1番」「番号143の問題を4番」…から分かることは？\nc を 1 から 4 まで:\n  i を 0 から 要素数(Bunya)−1 まで:\n    もし (Mondaisu[b] < saidai) and (Saiyou[i] == 0) ならば:\n      Saiyou[i] = c",["各問題は1つのクイズ集にだけ入る","同じ問題が複数のクイズ集に入る","cは問題番号","Saiyouは分野数"],0,"Saiyou[i]==0（未採用）の条件で重複を防ぐ。",1],
+[9,1,"「地方名」と「旅行者数（千人）」の尺度水準は？",["名義尺度と比例尺度","順序尺度と間隔尺度","名義尺度と間隔尺度","比例尺度と名義尺度"],0,"郵便番号と同じ＝名義。人数は0が絶対的＝比例。",1],
+[9,1,"オープンデータについて「誰でも入手可能」「加工・編集には利用申請が必須」の正誤は？",["正・正","正・誤","誤・正","誤・誤"],1,"二次利用可能がオープンデータの条件。",1],
+[9,1,"開花日の表で、記録がない年に「−」が入っている。これは？",["補数","乱数","代表値","欠損値"],3,"除外して分析する。",1],
+[9,2,"20年分の飛散花粉数の箱ひげ図に平均値が×で示されている。「平均値より多い年が半数以上ある」と読み取れるのは？",["中央値が平均値より大きいとき","最大値が平均値より大きいとき","箱が長いとき","ひげが長いとき"],0,"中央値＝ちょうど半分の位置。",1],
+[9,2,"3地点の統計量（最小・Q1・中央値・Q3・最大・平均）の表と箱ひげ図がある。表のどの値で地点を特定するのが確実か。",["最大値・最小値（ひげの端）と中央値","平均値だけ","Q1だけ","地点名"],0,"箱ひげ図に直接描かれている値で照合。",1],
+[9,2,"人口密度のヒストグラムが左側の階級に集中している。47都道府県を2グループに分けるとき平均値を基準にしにくい理由は？",["分布が偏っているので平均が少数の大きな値に引っ張られる","平均が計算できない","中央値が存在しない","分布が左右対称だから"],0,"→中央値で分ける。",1],
+[9,2,"棒グラフ（人数）と帯グラフ（割合）から読み取る。「出張等の割合は関東より東北が高い」を確かめるには？",["帯グラフ","棒グラフの高さ","両方不要","散布図"],0,"割合は帯グラフ。",1],
+[9,3,"各年齢層の人口と病院数の相関係数がどれも0.95〜0.99だった。読み取れることは？",["年齢層によらず人口が多い県では病院も多い","各年齢層の割合はどの県も等しい","病院数は年々増えている","病院が極端に多い県がある"],0,"規模の影響。高齢化との関係を見るには割合の指標が必要。",1],
+[9,3,"「65歳以上割合」と「病院/人口」の相関係数が0.37、「病院/面積」との相関係数が−0.59。示していることは？",["65歳以上割合が大きい県は人口あたり病院が多く、面積あたりは少ない","両方とも多い","両方とも少ない","人口あたり少なく面積あたり多い"],0,"符号で判断。",1],
+[9,3,"「病院/面積」が表す指標は？",["各県間での病院の分布の疎密の比較","県内で過疎の市町村の特定","一世帯あたりの病院数","県内で病院が少ない市町村の特定"],0,"県単位のデータなので市町村は分からない。",1],
+[9,3,"人口密度と65歳以上割合の相関係数が−0.65、人口密度と病院/面積が0.99。立てられる仮説は？",["過疎化が進むと高齢化が進み、面積あたりの病院数が少なくなる","過密化が進むと高齢化が進む","過疎化が進むと面積あたりの病院数が多くなる","関係はない"],0,"密度が低い＝過疎。",1],
+[9,3,"散布図と相関係数（0.67〜0.84）「のみ」から読み取れることは？",["ある目的の旅行者が多い県ほど他の目的の旅行者も多い傾向にある","観光をアピールすれば帰省も出張も増える","2県を比べて観光が多い方は帰省も必ず多い","全県で出張は帰省の1.5倍未満"],0,"「必ず」「〜すれば増える」は×。",1],
+[9,3,"旅行者数を各県の人口で割った指標にすると、2県の大小が逆転した。理由は？",["一方の県の人口が少ない","旅行者数の差が大きい","相関がない","データが誤り"],0,"分母が小さいと指標が大きくなる。",1],
+[9,3,"7月の相関係数：気温と花粉0.56、降水量と花粉−0.36、日射量と花粉0.57。「気温が高いと降水量は多い傾向」は読み取れるか。",["読み取れない（気温と降水量の相関係数がない）","読み取れる","0.56−0.36で分かる","気温の方が大きいので読める"],0,"表にない組み合わせは分からない。",1],
+[9,3,"緯度と400度開花差の相関係数0.92、600度開花差との相関係数0.74。正しいのは？",["400度開花差の方が散布図の点が直線に近い","600度開花差の方が直線に近い","開花日が一致する観測点は600度の方が多いと分かる","緯度が高いほど必ず開花差が大きい"],0,"絶対値が1に近いほど直線的。「必ず」は×。",1],
+[9,4,"回帰直線 y = 9.70x − 0.08 で x=0.3 のとき y は？",["0.283","0.299","2.83","2.99"],2,"2.91−0.08。",1],
+[9,4,"回帰直線 y = 1011.3x − 11911 で x=17.2 のときの y に最も近いのは？",["4500","5000","5500","6000"],2,"約17394−11911=5483。",1],
+[9,4,"散布図上の点Pが回帰直線より上、点Qが下にある。実測値と予測値の関係は？",["Pは予測を上回り、Qは下回る","両方上回る","両方下回る","Pは下回り、Qは上回る"],0,"",1],
+[9,4,"開花推定日が3月19日、実際の開花日が3月17日のとき「推定日−実際」の開花差は？（早ければ負）",["2","−2","0","36"],0,"遅いので正。",1],
+[9,4,"回帰直線 y=0.55x+5.48 の予測値で開花推定日を早める補正をする。「うまく補正できる」のはどんな点か。",["回帰直線上または上側の点","回帰直線より下側の点","すべての点","x=0の点"],0,"実際の差が予測以上なら、予測分さかのぼっても行き過ぎない。",1],
+[9,4,"400度開花推定日が4月23日、氷点下日数18日。補正日数＝0.55×18+5.48≒15を四捨五入し、推定日からさかのぼった補正日は？",["4月8日","4月9日","4月12日","4月15日"],0,"15.38→15。23−15=8。",1],
+[9,4,"日射量の「幅±7日の移動平均」は何日分の平均か。",["7日","14日","15日","8日"],2,"前後7日＋当日。",1],
+[9,4,"幅±3日・±7日・±15日の移動平均のグラフのうち、最も滑らかなのは？",["±3日","±7日","±15日","同じ"],2,"幅が広いほど平滑化。",1]
 
 ];
 
 /* ================= STATE ================= */
 const LS="info1_v2";
 let S=JSON.parse(localStorage.getItem(LS)||"{}");
-S.stat=S.stat||{};S.wrong=S.wrong||[];S.fill=S.fill||{};S.part=S.part||{};
+S.stat=S.stat||{};S.wrong=S.wrong||[];S.fill=S.fill||{};S.part=S.part||{};S.day=S.day||{};S.mock=S.mock||[];
 function save(){localStorage.setItem(LS,JSON.stringify(S))}
-function resetAll(){if(confirm("記録を全部消す？")){S={stat:{},wrong:[],fill:{},part:{}};save();render()}}
+function resetAll(){if(confirm("記録を全部消す？")){S={stat:{},wrong:[],fill:{},part:{},day:{},mock:[]};save();render()}}
 
 /* ================= NAV ================= */
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
@@ -1005,16 +1269,16 @@ return{n:ids.length,ok,wrong:ids.filter(i=>S.wrong.includes(i)).length,fn:fids.l
 }
 function partKey(u,p){return u+"-"+p}
 function partStatus(u,p){const r=S.part[partKey(u,p)];if(!r)return 0;return r.best>=80?2:1}
-function nextPart(){for(const u of UNITS)for(let p=1;p<=u.parts.length;p++)if(partStatus(u.id,p)<2)return[u.id,p];return null}
+const ORDER=[3,1,6,9,8,5,4,7,2];
+function nextPart(){for(const uid of ORDER){const u=UNITS[uid-1];for(let p=1;p<=u.parts.length;p++)if(partStatus(u.id,p)<2)return[u.id,p]}return null}
 function render(){
-let h="";UNITS.forEach(u=>{const st=unitStat(u.id);const done=u.parts.filter((x,i)=>partStatus(u.id,i+1)===2).length;
+let h="";ORDER.map(i=>UNITS[i-1]).forEach(u=>{const st=unitStat(u.id);const done=u.parts.filter((x,i)=>partStatus(u.id,i+1)===2).length;
 h+=`<div class="card"><h2>第${u.id}講　${u.name} <span class="small">${done}/${u.parts.length}</span></h2><div>${u.parts.map((p,i)=>{const stt=partStatus(u.id,i+1);const col=stt===2?"background:#dcfce7;color:#166534":stt===1?"background:#fef3c7;color:#92400e":"";return `<button class="chip" style="${col}" onclick="learnStart(${u.id},${i+1})">${stt===2?"✓":stt===1?"△":"・"} P${i+1} ${p}</button>`}).join("")}</div></div>`});
 document.getElementById("learn-map").innerHTML=h;
-const np=nextPart();document.getElementById("btn-continue").textContent=np?`続きから：第${np[0]}講 P${np[1]} ${UNITS[np[0]-1].parts[np[1]-1]}`:"全PART✓　復習へ";
-const doneCount=Object.keys(S.part).filter(k=>S.part[k].best>=80).length;document.getElementById("btn-review").disabled=!doneCount;
+renderToday();
 // notes
 let n="";UNITS.forEach(u=>{n+=`<div class="card"><h2>第${u.id}講　${u.name}</h2>`;
-NOTES[u.id].forEach((bul,pi)=>{const title=u.parts[pi]||("補足");const ex=EXAM[u.id+"-"+(pi+1)];n+=`<details><summary>PART${pi+1}　${title}</summary><ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul>${ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:""}<button class="btn sm" onclick="show('home');learnStart(${u.id},${pi+1})">このPARTを学習</button></details>`});
+NOTES[u.id].forEach((bul,pi)=>{const title=u.parts[pi]||("補足");const ex=EXAM[u.id+"-"+(pi+1)];const fg=FIG[u.id+"-"+(pi+1)]||"";n+=`<details><summary>PART${pi+1}　${title}</summary>${fg?`<div class="figbox">${fg}</div>`:""}<ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul>${ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:""}<button class="btn sm" onclick="show('home');learnStart(${u.id},${pi+1})">このPARTを学習</button></details>`});
 n+=`<div class="row"><button class="btn sm" onclick="show('fill');startFill(${u.id},false)">穴埋め</button><button class="btn sm sec" onclick="show('drill');startDrill(${u.id},0,false)">4択</button></div></div>`});
 document.getElementById("notes-list").innerHTML=n;
 // fill menu
@@ -1037,10 +1301,10 @@ document.getElementById("wrong-fill").innerHTML=wf||"<p class='small'>まだな�
 
 /* ================= FILL ================= */
 let FL={list:[],i:0};
-function startFill(u,onlyNg,part,cb){
-let ids=F.map((x,i)=>i).filter(i=>(u===0||F[i][0]===u)&&(!part||F[i][1]===part));
+function startFill(u,onlyNg,part,cb,limit){
+let ids=F.map((x,i)=>i).filter(i=>(u===0||F[i][0]===u)&&(!part||F[i][1]===part));if(limit&&ids.length>limit)ids=shuffle(ids).slice(0,limit);
 if(onlyNg)ids=ids.filter(i=>S.fill[i]==="ng");
-if(!ids.length)return;
+if(!ids.length){if(cb)cb(0,0);return}
 FL={list:u===0?shuffle(ids):ids,i:0,ok:0,cb:cb||null};
 document.getElementById("fill-menu").classList.add("hide");document.getElementById("fill-done").classList.add("hide");document.getElementById("fill-play").classList.remove("hide");fShow();
 }
@@ -1053,15 +1317,15 @@ document.getElementById("f-reveal").classList.remove("hide");document.getElement
 window.scrollTo(0,0);
 }
 function fReveal(){document.getElementById("f-blank").classList.add("show");document.getElementById("f-reveal").classList.add("hide");document.getElementById("f-judge").classList.remove("hide")}
-function fJudge(ok){S.fill[FL.list[FL.i]]=ok?"ok":"ng";if(ok)FL.ok++;save();FL.i++;if(FL.i<FL.list.length)fShow();else if(FL.cb){document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");const cb=FL.cb;FL.cb=null;cb(FL.ok,FL.list.length)}else{document.getElementById("fill-play").classList.add("hide");const el=document.getElementById("fill-done");el.classList.remove("hide");el.innerHTML=`<div class="card"><h2>終了</h2><p style="font-size:26px;font-weight:700;margin:4px 0">覚えた ${FL.ok} / ${FL.list.length}</p><button class="btn" onclick="fQuit()">メニューへ</button></div>`;render()}}
-function fQuit(){if(FL.cb){FL.cb=null;document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");learnQuit();return}document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-done").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");render()}
+function fJudge(ok){dayInc("fill");S.fill[FL.list[FL.i]]=ok?"ok":"ng";if(ok)FL.ok++;save();FL.i++;if(FL.i<FL.list.length)fShow();else if(FL.cb){document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");const cb=FL.cb;FL.cb=null;cb(FL.ok,FL.list.length)}else{document.getElementById("fill-play").classList.add("hide");const el=document.getElementById("fill-done");el.classList.remove("hide");el.innerHTML=`<div class="card"><h2>終了</h2><p style="font-size:26px;font-weight:700;margin:4px 0">覚えた ${FL.ok} / ${FL.list.length}</p><button class="btn" onclick="fQuit()">メニューへ</button></div>`;render()}}
+function fQuit(){if(FL.cb){FL.cb=null;RUN=null;document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");learnQuit();return}document.getElementById("fill-play").classList.add("hide");document.getElementById("fill-done").classList.add("hide");document.getElementById("fill-menu").classList.remove("hide");render()}
 
 /* ================= DRILL ================= */
 let D={list:[],i:0,ok:0};
 function startDrill(u,p,onlyWrong,limit,cb,examOnly){
 let ids=Q.map((q,i)=>i).filter(i=>(u===0||Q[i][0]===u)&&(p===0||Q[i][1]===p)&&(!examOnly||Q[i][6]));
 if(onlyWrong)ids=ids.filter(i=>S.wrong.includes(i));
-if(!ids.length)return;
+if(!ids.length){if(cb)cb(0,0);return}
 ids=shuffle(ids);if(cb)ids.sort((a,b2)=>(Q[a][6]?1:0)-(Q[b2][6]?1:0));if(limit)ids=ids.slice(0,limit);
 D={list:ids,i:0,ok:0,cb:cb||null};
 document.getElementById("drill-menu").classList.add("hide");document.getElementById("drill-done").classList.add("hide");document.getElementById("drill-play").classList.remove("hide");dShow();
@@ -1077,7 +1341,7 @@ document.getElementById("d-ch").innerHTML=order.map(k=>`<button class="ch" data-
 document.getElementById("d-res").innerHTML="";document.getElementById("d-next").classList.add("hide");window.scrollTo(0,0);
 }
 function dAns(k){
-const qi=D.list[D.i],q=Q[qi],ok=k===q[4];
+const qi=D.list[D.i],q=Q[qi],ok=k===q[4];dayInc("q");if(q[6])dayInc("exam");if(S.wrong.includes(qi))dayInc("wrongq");
 document.querySelectorAll("#d-ch .ch").forEach(b=>{b.disabled=true;const kk=+b.dataset.k;if(kk===q[4])b.classList.add("ok");else if(kk===k)b.classList.add("ng")});
 S.stat[qi]=S.stat[qi]||{t:0,c:0};S.stat[qi].t++;if(ok)S.stat[qi].c++;S.stat[qi].last=ok;
 if(ok){D.ok++;S.wrong=S.wrong.filter(x=>x!==qi)}else if(!S.wrong.includes(qi))S.wrong.push(qi);
@@ -1093,25 +1357,92 @@ const el=document.getElementById("drill-done");el.classList.remove("hide");
 const pct=Math.round(D.ok/D.list.length*100);
 el.innerHTML=`<div class="card"><h2>終了</h2><p style="font-size:28px;font-weight:700;margin:4px 0">${D.ok} / ${D.list.length}（${pct}%）</p><p class="small">${pct>=90?"合格ライン。次の講へ":pct>=70?"あと少し。間違いだけをもう1周":"要点を読み直してからもう1周"}</p><button class="btn" onclick="dQuit()">メニューへ</button></div>`;render();
 }
-function dQuit(){if(D.cb){D.cb=null;document.getElementById("drill-play").classList.add("hide");document.getElementById("drill-menu").classList.remove("hide");learnQuit();return}document.getElementById("drill-play").classList.add("hide");document.getElementById("drill-done").classList.add("hide");document.getElementById("drill-menu").classList.remove("hide");render()}
+function dQuit(){if(D.cb){D.cb=null;RUN=null;document.getElementById("drill-play").classList.add("hide");document.getElementById("drill-menu").classList.remove("hide");learnQuit();return}document.getElementById("drill-play").classList.add("hide");document.getElementById("drill-done").classList.add("hide");document.getElementById("drill-menu").classList.remove("hide");render()}
 
 
+
+/* ================= DAILY PLAN ================= */
+const GOAL=new Date(2026,10,30),LEARN_END=new Date(2026,10,5);
+function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function today(){const d=new Date();return ymd(d)}
+function dayRec(){const t=today();S.day[t]=S.day[t]||{};return S.day[t]}
+function dayInc(k){const r=dayRec();r[k]=(r[k]||0)+1;save()}
+function daysBetween(a,b){return Math.round((new Date(b.getFullYear(),b.getMonth(),b.getDate())-new Date(a.getFullYear(),a.getMonth(),a.getDate()))/86400000)}
+function allParts(){const a=[];ORDER.forEach(uid=>{const u=UNITS[uid-1];for(let p=1;p<=u.parts.length;p++)a.push([u.id,p])});return a}
+function oldestDone(){let best=null;Object.keys(S.part).forEach(k=>{const r=S.part[k];if(r.best>=80&&(!best||r.last<best.last))best={k,last:r.last}});return best}
+function planItems(){
+const now=new Date(),d=dayRec();const c=S.course||"20";const long=c==="40";
+const LE=long?new Date(2026,9,15):LEARN_END;const toGoal=daysBetween(now,GOAL),toLearn=daysBetween(now,LE);
+const parts=allParts(),done=parts.filter(([u,p])=>partStatus(u,p)===2).length,left=parts.length-done;
+const ngN=F.filter((x,i)=>S.fill[i]==="ng").length,wrongN=S.wrong.length;
+const T=(cur,goal)=>({done:cur>=goal,cur:Math.min(cur,goal),goal});
+let items=[],phase="";
+const sunday=now.getDay()===0;
+if(left>0){
+ const n=Math.max(1,Math.min(long?4:3,Math.ceil(left/Math.max(1,toLearn+1))));
+ phase=`インプット期（${LE.getMonth()+1}/${LE.getDate()}まで）　残り${left}PART・1日${n}PART`;
+ if(ngN)items.push({key:"fill",name:"復習：穴埋め「まだ」",min:long?5:3,t:T(d.fill||0,Math.min(long?15:8,ngN)),run:cb=>{show("fill",true);startFill(0,true,null,cb,long?15:8)}});
+ if(wrongN)items.push({key:"wrongq",name:"復習：間違えた4択",min:long?5:3,t:T(d.wrongq||0,Math.min(long?10:5,wrongN)),run:cb=>{show("drill",true);startDrill(0,0,true,long?10:5,cb)}});
+ for(let k=0;k<n;k++){items.push({key:"newpart",name:`新しいPART（${k+1}/${n}）`,min:long?11:12,t:T(Math.min(d.newpart||0,k+1),k+1),run:cb=>{const np=nextPart();if(!np){cb();return}learnStart(np[0],np[1],cb)}})}
+ items.push({key:"calc",name:"計算ドリル",min:long?5:3,t:T(d.calc||0,long?6:3),run:cb=>{show("calc",true);cStart("mix",cb,long?6:3)}});
+ if(long)items.push({key:"exam",name:"共テ型 4択（先取り）",min:6,t:T(d.exam||0,6),run:cb=>{show("drill",true);startDrill(0,0,false,6,cb,true)}});
+}else{
+ const finalWeek=toGoal<=7;
+ phase=sunday?"仕上げ期　日曜＝模試の日":finalWeek?"直前期　本物の過去問を時間を計って解く週":"仕上げ期　共テ型＋復習";
+ if(sunday){items.push({key:"mock",name:`模試（共テ型${long?30:20}問）`,min:long?30:20,t:T(d.mock||0,1),run:cb=>{show("drill",true);startDrill(0,0,false,long?30:20,(ok,n)=>{S.mock.push({d:today(),ok,n});dayInc("mock");save();cb()},true)}})}
+ else{items.push({key:"exam",name:"共テ型 4択",min:long?14:8,t:T(d.exam||0,long?18:10),run:cb=>{show("drill",true);startDrill(0,0,false,long?18:10,cb,true)}})}
+ const revN=long?2:1;for(let k=0;k<revN;k++){items.push({key:"revpart",name:`復習PART（${k+1}/${revN}・いちばん前にやったもの）`,min:6,t:T(Math.min(d.revpart||0,k+1),k+1),run:cb=>{const od=oldestDone();if(!od){cb();return}const kk=od.k.split("-");learnStart(+kk[0],+kk[1],cb)}})}
+ if(wrongN)items.push({key:"wrongq",name:"間違えた4択",min:3,t:T(d.wrongq||0,Math.min(long?10:5,wrongN)),run:cb=>{show("drill",true);startDrill(0,0,true,long?10:5,cb)}});
+ if(ngN)items.push({key:"fill",name:"穴埋め「まだ」",min:2,t:T(d.fill||0,Math.min(long?15:8,ngN)),run:cb=>{show("fill",true);startFill(0,true,null,cb,long?15:8)}});
+ items.push({key:"calc",name:"計算ドリル",min:3,t:T(d.calc||0,long?8:5),run:cb=>{show("calc",true);cStart("mix",cb,long?8:5)}});
+}
+return{items,phase,done,total:parts.length,toGoal,LE};
+}
+let RUN=null;
+function sessionStart(){const P=planItems();RUN={items:P.items.filter(i=>!i.t.done),i:0};sessionNext()}
+function sessionNext(){
+if(!RUN)return;const P=planItems();const pend=P.items.filter(i=>!i.t.done);
+if(!pend.length){RUN=null;show("home");render();window.scrollTo(0,0);return}
+const it=pend[0];show("home",true);document.getElementById("learn-top").classList.remove("hide");document.getElementById("learn-play").classList.add("hide");
+it.run(()=>{render();sessionNext()});
+}
+function setCourse(c){S.course=c;save();render()}
+function renderToday(){
+const now=new Date();const c=S.course;
+const cc=document.getElementById("course-card");
+if(!c){cc.innerHTML=`<h2>コースを選ぶ</h2><p class="small">9/18〜11/30。毎日「今日の学習」を押すだけ。あとから変更できる。</p><div class="course"><button onclick="setCourse('20')">1日20分<br><span class="small">1日1PART＋復習</span></button><button onclick="setCourse('40')">1日40分<br><span class="small">1日2PART＋共テ型先取り＋日曜模試</span></button></div>`;document.getElementById("today-card").innerHTML="";return}
+cc.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span class="small">コース：<b>1日${c}分</b></span><button class="btn sm sec" style="margin:0" onclick="setCourse(S.course==='20'?'40':'20')">${c==="20"?"40分に変更":"20分に変更"}</button></div>`;
+const P=planItems();const d=dayRec();
+const allDone=P.items.every(i=>i.t.done);if(allDone)d.complete=1;
+let cal="";for(let i=13;i>=0;i--){const dd=new Date(now);dd.setDate(now.getDate()-i);const r=S.day[ymd(dd)];const col=r&&r.complete?"#16a34a":(r&&Object.keys(r).length?"#fbbf24":"#e5e7eb");cal+=`<span style="display:inline-block;width:16px;height:16px;border-radius:4px;background:${col};margin-right:3px"></span>`}
+let streak=0;for(let i=0;i<400;i++){const dd=new Date(now);dd.setDate(now.getDate()-i);const r=S.day[ymd(dd)];if(r&&r.complete)streak++;else if(i>0)break}
+const startD=new Date(2026,8,18);const elapsed=Math.max(0,daysBetween(startD,now));const totalLearnDays=daysBetween(startD,P.LE)+1;const expected=Math.min(P.total,Math.floor(P.total*elapsed/totalLearnDays));
+const pace=P.done>=expected?`予定どおり`:`目安${expected}に対して${expected-P.done}遅れ（自動で増量）`;
+const totalMin=P.items.filter(i=>!i.t.done).reduce((a,i)=>a+i.min,0);
+let mock="";if(S.mock.length){const last=S.mock.slice(-8);const w=340,h=60;mock=`<div style="margin-top:8px"><span class="small">模試の正答率（目標90%）</span><svg viewBox="0 0 ${w} ${h+16}" style="width:100%;display:block"><line x1="10" y1="${h-h*0.9}" x2="${w}" y2="${h-h*0.9}" stroke="#16a34a" stroke-dasharray="3 3"/><polyline fill="none" stroke="#2563eb" stroke-width="2" points="${last.map((m,i)=>`${10+i*(w-20)/Math.max(1,last.length-1)},${h-h*m.ok/m.n}`).join(" ")}"/>${last.map((m,i)=>`<circle cx="${10+i*(w-20)/Math.max(1,last.length-1)}" cy="${h-h*m.ok/m.n}" r="3" fill="#2563eb"/><text x="${10+i*(w-20)/Math.max(1,last.length-1)}" y="${h+12}" text-anchor="middle" font-size="9" fill="#6b7280">${Math.round(m.ok/m.n*100)}%</text>`).join("")}</svg></div>`}
+document.getElementById("today-card").innerHTML=`<h2>今日の学習 <span class="small">${now.getMonth()+1}/${now.getDate()}　11/30まで${P.toGoal}日</span></h2>
+<p class="small" style="margin:0 0 8px">${P.phase}</p>
+${allDone?`<p style="font-size:20px;font-weight:700;color:var(--ok);margin:6px 0">✅ 今日の分は完了</p><p class="small">余裕があれば下のタブで自由練習。明日また。</p>`:`<button class="btn bigbtn" onclick="sessionStart()">▶ 今日の学習を始める（約${totalMin}分）</button>`}
+<div style="margin-top:8px">${P.items.map(i=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid var(--line)"><span style="width:22px">${i.t.done?"✅":"⬜"}</span><span style="flex:1;font-size:14px">${i.name}</span><span class="small">${i.t.cur}/${i.t.goal}</span></div>`).join("")}</div>
+<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:4px"><span class="small">進捗 ${P.done}/${P.total} PART　${pace}　連続${streak}日</span><div style="margin-top:6px">${cal}</div><div style="height:8px;background:#eef0f4;border-radius:4px;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:${Math.round(P.done/P.total*100)}%;background:var(--ok)"></i></div>${mock}</div>`;
+save();
+}
 /* ================= LEARN ================= */
 let L={u:0,p:0,step:"",fill:[0,0],drill:[0,0]};
-function learnStart(u,p){L={u,p,step:"read",fill:[0,0],drill:[0,0]};S.part[partKey(u,p)]=S.part[partKey(u,p)]||{best:0,n:0};save();
+function learnStart(u,p,cb){L={u,p,step:"read",fill:[0,0],drill:[0,0],cb:cb||null};S.part[partKey(u,p)]=S.part[partKey(u,p)]||{best:0,n:0};save();
 document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");learnRead()}
 function learnContinue(){const np=nextPart();if(np)learnStart(np[0],np[1]);else learnReview()}
 function learnReview(){const done=Object.keys(S.part).filter(k=>S.part[k].best>=80);if(!done.length)return;const k=done[rnd(0,done.length-1)].split("-");learnStart(+k[0],+k[1])}
 function learnRead(){
 const u=UNITS[L.u-1],title=u.parts[L.p-1];const prose=(LESSONS[L.u]||[])[L.p-1]||"";const bul=(NOTES[L.u]||[])[L.p-1]||[];
 document.getElementById("l-title").textContent=`第${L.u}講 P${L.p}　${title}`;document.getElementById("l-step").textContent="① 読む";
-const ex=EXAM[L.u+"-"+L.p];document.getElementById("l-body").innerHTML=`<div style="white-space:pre-wrap;line-height:1.9;margin-bottom:12px">${prose}</div><details open><summary>まとめ</summary><ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul></details>`+(ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:"");
+const ex=EXAM[L.u+"-"+L.p];const fg=FIG[L.u+"-"+L.p]||"";document.getElementById("l-body").innerHTML=(fg?`<div class="figbox">${fg}</div>`:"")+`<div style="white-space:pre-wrap;line-height:1.9;margin-bottom:12px">${prose}</div><details open><summary>まとめ</summary><ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul></details>`+(ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:"");
 const nb=document.getElementById("l-next");nb.textContent="② 穴埋めへ";nb.classList.remove("hide");window.scrollTo(0,0);
 }
 function learnNext(){
 if(L.step==="read"){const has=F.some(f=>f[0]===L.u&&f[1]===L.p);if(has){L.step="fill";show("fill",true);startFill(L.u,false,L.p,(ok,n)=>{L.fill=[ok,n];learnDrillStep()})}else learnDrillStep()}
-else if(L.step==="done"){const np=nextPart();if(np){learnStart(np[0],np[1])}else{learnQuit()}}
-else if(L.step==="retry"){learnStart(L.u,L.p)}
+else if(L.step==="done"){if(L.cb){const cb=L.cb;L.cb=null;cb();return}const np=nextPart();if(np){learnStart(np[0],np[1])}else{learnQuit()}}
+else if(L.step==="retry"){learnStart(L.u,L.p,L.cb)}
 }
 function learnDrillStep(){
 const has=Q.some(q=>q[0]===L.u&&q[1]===L.p);show("home",true);document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");
@@ -1120,15 +1451,15 @@ L.step="drill";show("drill",true);startDrill(L.u,L.p,false,0,(ok,n)=>{L.drill=[o
 }
 function learnResult(){
 show("home",true);document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");
-const [ok,n]=L.drill;const pct=n?Math.round(ok/n*100):100;const k=partKey(L.u,L.p);const r=S.part[k];r.n++;r.best=Math.max(r.best,pct);r.last=Date.now();save();
+const [ok,n]=L.drill;const pct=n?Math.round(ok/n*100):100;const k=partKey(L.u,L.p);const r=S.part[k];const wasDone=r.best>=80;r.n++;r.best=Math.max(r.best,pct);r.last=Date.now();dayInc(wasDone?"revpart":"newpart");save();
 const u=UNITS[L.u-1];document.getElementById("l-title").textContent=`第${L.u}講 P${L.p}　${u.parts[L.p-1]}`;document.getElementById("l-step").textContent="③ 結果";
 const pass=pct>=80;const np=nextPart();
 document.getElementById("l-body").innerHTML=`<p style="font-size:26px;font-weight:700;margin:4px 0">${pass?"✓ 合格":"△ もう一回"}</p><p>穴埋め：覚えた ${L.fill[0]} / ${L.fill[1]}<br>4択：${ok} / ${n}（${pct}%）</p><p class="small">${pass?"次のPARTへ進む。忘れた頃に「復習」で戻ってくる。":"「読む」に戻って、まとめを見ながらもう一度。間違いタブにも溜まっている。"}</p>`;
 const nb=document.getElementById("l-next");
-if(pass){L.step="done";nb.textContent=np?`次へ：第${np[0]}講 P${np[1]}`:"全PART完了！";}else{L.step="retry";nb.textContent="もう一回（読むから）"}
+if(pass){L.step="done";nb.textContent=L.cb?"次へ":(np?`次へ：第${np[0]}講 P${np[1]}`:"全PART完了！");}else{L.step="retry";nb.textContent="もう一回（読むから）"}
 render();window.scrollTo(0,0);
 }
-function learnQuit(){show("home");document.getElementById("learn-play").classList.add("hide");document.getElementById("learn-top").classList.remove("hide");render()}
+function learnQuit(){RUN=null;show("home");document.getElementById("learn-play").classList.add("hide");document.getElementById("learn-top").classList.remove("hide");render()}
 
 /* ================= CALC ================= */
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
@@ -1157,8 +1488,9 @@ const CT=[
 ];
 let C={t:null,cur:null,ok:0,n:0};
 document.getElementById("calc-menu").innerHTML=CT.map(t=>`<button class="btn sm sec" onclick="cStart('${t.id}')">${t.name}</button>`).join("")+`<button class="btn sm" onclick="cStart('mix')">全部ミックス</button>`;
-function cStart(id){C={t:id,ok:0,n:0};document.getElementById("calc-play").classList.remove("hide");cNew();document.getElementById("calc-play").scrollIntoView({behavior:"smooth"})}
+function cStart(id,cb,limit){C={t:id,ok:0,n:0,cb:cb||null,limit:limit||0};document.getElementById("calc-play").classList.remove("hide");cNew();document.getElementById("calc-play").scrollIntoView({behavior:"smooth"})}
 function cNew(){
+if(C.cb&&C.limit&&C.n>=C.limit){const cb=C.cb;C.cb=null;document.getElementById("calc-play").classList.add("hide");cb(C.ok,C.n);return}
 const t=C.t==="mix"?CT[rnd(0,CT.length-1)]:CT.find(x=>x.id===C.t);
 C.cur=t.gen();
 document.getElementById("c-type").textContent=t.name;
@@ -1174,10 +1506,10 @@ const ans=norm(C.cur.a);
 let ok=v===ans;
 if(!ok&&/^-?\d+(\.\d+)?$/.test(v)&&/^-?\d+(\.\d+)?$/.test(ans)&&!/^[01]{3,}$/.test(ans))ok=+v===+ans;
 if(!ok&&/^[01]+$/.test(ans)&&/^[01]+$/.test(v))ok=v.replace(/^0+/,"")===ans.replace(/^0+/,"");
-C.n++;if(ok)C.ok++;
+C.n++;if(ok)C.ok++;dayInc("calc");
 document.getElementById("c-res").innerHTML=`<div class="res ${ok?"ok":"ng"}">${ok?"正解":"不正解　正解：<span class='mono'>"+esc(C.cur.a)+"</span>"}</div><div class="exp">${esc(C.cur.e)}</div>`;
 document.getElementById("c-score").textContent=`${C.ok} / ${C.n}`;
-document.getElementById("c-in").disabled=true;document.getElementById("c-check").classList.add("hide");document.getElementById("c-next").classList.remove("hide");
+document.getElementById("c-in").disabled=true;document.getElementById("c-check").classList.add("hide");const nb=document.getElementById("c-next");nb.classList.remove("hide");nb.textContent=(C.cb&&C.limit&&C.n>=C.limit)?"完了 → 次へ":"次の問題";
 }
 document.getElementById("c-in").addEventListener("keydown",e=>{if(e.key==="Enter"){if(document.getElementById("c-check").classList.contains("hide"))cNew();else cCheck()}});
 
