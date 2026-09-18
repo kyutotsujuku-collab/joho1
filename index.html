@@ -73,7 +73,7 @@ details.more[open]>summary::before{content:"▲ "}
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v8</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v9</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -1418,7 +1418,7 @@ function setCourse(c){S.course=c;save();render()}
 function renderToday(){
 const now=new Date();const c=S.course;
 const cc=document.getElementById("course-card");
-if(!c){cc.innerHTML=`<h2 style="text-align:center;font-size:18px;margin-bottom:12px">コースを選ぶ</h2><div class="course"><button onclick="setCourse('20')">1日20分<br><span class="small">11/5までに全範囲<br>1日1PART＋復習</span></button><button onclick="setCourse('40')">1日40分<br><span class="small">10/15までに全範囲<br>1日2PART＋日曜模試</span></button></div><p class="small" style="text-align:center;margin:12px 0 0">9/18〜11/30。毎日ボタンを押すだけ。あとから変更できる。</p>`;document.getElementById("today-card").style.display="none";document.querySelector("details.more").style.display="none";return}
+if(!c){cc.innerHTML=`<h2 style="text-align:center;font-size:18px;margin-bottom:12px">コースを選ぶ</h2><div class="course"><button onclick="setCourse('20')">1日20分</button><button onclick="setCourse('40')">1日40分</button></div><p class="small" style="text-align:center;margin:12px 0 0">毎日ボタンを押すだけ。</p>`;document.getElementById("today-card").style.display="none";document.querySelector("details.more").style.display="none";return}
 document.getElementById("today-card").style.display="";
 document.querySelector("details.more").style.display="";
 cc.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span>コース：<b>1日${c}分</b></span><button class="btn sm sec" style="margin:0" onclick="setCourse(S.course==='20'?'40':'20')">${c==="20"?"40分に変更":"20分に変更"}</button></div>`;
