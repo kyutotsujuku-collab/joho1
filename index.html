@@ -73,7 +73,7 @@ details.more[open]>summary::before{content:"▲ "}
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v13</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v14</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -1521,7 +1521,7 @@ function cNew(){
 if(C.cb&&C.limit&&C.n>=C.limit){const cb=C.cb;C.cb=null;document.getElementById("calc-play").classList.add("hide");cb(C.ok,C.n);return}
 const t=C.t==="mix"?CT[rnd(0,CT.length-1)]:CT.find(x=>x.id===C.t);
 C.cur=t.gen();
-document.getElementById("c-type").textContent=t.name;
+document.getElementById("c-type").textContent=(C.cb&&C.limit)?`今日の計算 ${C.n+1} / ${C.limit} 問目（${t.name}）`:t.name;
 document.getElementById("c-score").textContent=`${C.ok} / ${C.n}`;
 document.getElementById("c-q").textContent=C.cur.q;
 const inp=document.getElementById("c-in");inp.value="";inp.disabled=false;inp.focus();
