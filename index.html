@@ -73,7 +73,7 @@ details.more[open]>summary::before{content:"▲ "}
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v11</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v13</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -90,7 +90,7 @@ details.more[open]>summary::before{content:"▲ "}
 <div class="card" id="course-card"></div>
 <div class="card" id="today-card"></div>
 <details class="more"><summary>詳しく見る（出題傾向・解き方・進捗マップ）</summary>
-<div class="card">
+<div class="card exam-only">
 <h2>出題傾向（試作＋2025本・追＋2026本・追）と来年の読み</h2>
 <details><summary>4回で毎回出ているもの＝落とせない</summary><ul class="pt">
 <li><b>2ⁿ通り・必要ビット数・2進⇄16進</b>（第1問）：時刻のビット数、LEDの点灯パターン、図案の16進表現、地図タイル 2ᵏ×2ᵏ</li>
@@ -112,7 +112,7 @@ details.more[open]>summary::before{content:"▲ "}
 <li>問題量は「前年並みが望ましい」と指摘→大幅増はない。時間配分は 第1問10・第2問15・第3問20・第4問15</li>
 </ul></details>
 </div>
-<div class="card">
+<div class="card exam-only">
 <h2>共テの解き方</h2>
 <details><summary>全体</summary><ul class="pt">
 <li>知らない題材（地図タイル・迷路・クロスステッチ・住民証明・花粉）が出るのが普通。<b>説明は全部問題文にある</b>。知識で解こうとせず条件を拾う</li>
@@ -1293,7 +1293,7 @@ document.getElementById("learn-map").innerHTML=h;
 renderToday();
 // notes
 let n="";UNITS.forEach(u=>{n+=`<div class="card"><h2>第${u.id}講　${u.name}</h2>`;
-NOTES[u.id].forEach((bul,pi)=>{const title=u.parts[pi]||("補足");const ex=EXAM[u.id+"-"+(pi+1)];const fg=FIG[u.id+"-"+(pi+1)]||"";n+=`<details><summary>PART${pi+1}　${title}</summary>${fg?`<div class="figbox">${fg}</div>`:""}<ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul>${ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:""}<button class="btn sm" onclick="show('home');learnStart(${u.id},${pi+1})">このPARTを学習</button></details>`});
+NOTES[u.id].forEach((bul,pi)=>{const title=u.parts[pi]||("補足");const ex=lite()?null:EXAM[u.id+"-"+(pi+1)];const fg=FIG[u.id+"-"+(pi+1)]||"";n+=`<details><summary>PART${pi+1}　${title}</summary>${fg?`<div class="figbox">${fg}</div>`:""}<ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul>${ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:""}<button class="btn sm" onclick="show('home');learnStart(${u.id},${pi+1})">このPARTを学習</button></details>`});
 n+=`<div class="row"><button class="btn sm" onclick="show('fill');startFill(${u.id},false)">穴埋め</button><button class="btn sm sec" onclick="show('drill');startDrill(${u.id},0,false)">4択</button></div></div>`});
 document.getElementById("notes-list").innerHTML=n;
 // fill menu
@@ -1305,8 +1305,8 @@ document.getElementById("fill-menu").innerHTML=f;
 // drill menu
 let d="";UNITS.forEach(u=>{const st=unitStat(u.id);
 d+=`<div class="card"><h2>第${u.id}講　${u.name}</h2><p class="small">${st.n}問　正解済 ${st.ok}　間違い ${st.wrong}</p><div class="row"><button class="btn sm" onclick="startDrill(${u.id},0,false)">全問</button><button class="btn sm sec" onclick="startDrill(${u.id},0,true)" ${st.wrong?"":"disabled"}>間違いだけ(${st.wrong})</button></div><div style="margin-top:6px">${u.parts.map((p,i)=>`<button class="chip" onclick="startDrill(${u.id},${i+1},false)">P${i+1} ${p}</button>`).join("")}</div></div>`});
-d+=`<div class="card"><h2>全範囲</h2><div class="row"><button class="btn sm" onclick="startDrill(0,0,false)">全問シャッフル</button><button class="btn sm sec" onclick="startDrill(0,0,true)" ${S.wrong.length?"":"disabled"}>間違いだけ(${S.wrong.length})</button><button class="btn sm sec" onclick="startDrill(0,0,false,30)">ランダム30問</button></div></div><div class="card"><h2>共テ型（場面・資料・プログラム）</h2><p class="small">試作問題の出題パターンに合わせた応用問題。知識が入ってから。</p><div class="row"><button class="btn sm" onclick="startDrill(0,0,false,0,null,true)">共テ型 全問</button><button class="btn sm sec" onclick="startDrill(0,0,false,20,null,true)">共テ型 20問</button></div></div>`;
-document.getElementById("drill-menu").innerHTML=d;
+d+=`<div class="card"><h2>全範囲</h2><div class="row"><button class="btn sm" onclick="startDrill(0,0,false)">全問シャッフル</button><button class="btn sm sec" onclick="startDrill(0,0,true)" ${S.wrong.length?"":"disabled"}>間違いだけ(${S.wrong.length})</button><button class="btn sm sec" onclick="startDrill(0,0,false,30)">ランダム30問</button></div></div><div class="card exam-only"><h2>共テ型（場面・資料・プログラム）</h2><p class="small">試作問題の出題パターンに合わせた応用問題。知識が入ってから。</p><div class="row"><button class="btn sm" onclick="startDrill(0,0,false,0,null,true)">共テ型 全問</button><button class="btn sm sec" onclick="startDrill(0,0,false,20,null,true)">共テ型 20問</button></div></div>`;
+document.getElementById("drill-menu").innerHTML=d;document.querySelectorAll(".exam-only").forEach(e=>e.style.display=lite()?"none":"");
 // wrong
 let w="";S.wrong.forEach(i=>{const q=Q[i];w+=`<div class="wrongitem"><b>[${UNITS[q[0]-1].short}] ${esc(q[2]).split("\n")[0]}</b>→ ${esc(q[3][q[4]])}<br><span class="small">${esc(q[5])}</span></div>`});
 document.getElementById("wrong-list").innerHTML=w||"<p class='small'>まだない</p>";
@@ -1337,11 +1337,11 @@ function fQuit(){if(FL.cb){FL.cb=null;RUN=null;document.getElementById("fill-pla
 
 /* ================= DRILL ================= */
 let D={list:[],i:0,ok:0};
-function startDrill(u,p,onlyWrong,limit,cb,examOnly){
-let ids=Q.map((q,i)=>i).filter(i=>(u===0||Q[i][0]===u)&&(p===0||Q[i][1]===p)&&(!examOnly||Q[i][6]));
+function startDrill(u,p,onlyWrong,limit,cb,examOnly,noExam){
+let ids=Q.map((q,i)=>i).filter(i=>(u===0||Q[i][0]===u)&&(p===0||Q[i][1]===p)&&(!examOnly||Q[i][6])&&(!noExam||!Q[i][6]));
 if(onlyWrong)ids=ids.filter(i=>S.wrong.includes(i));
 if(!ids.length){if(cb)cb(0,0);return}
-ids=shuffle(ids);if(cb)ids.sort((a,b2)=>(Q[a][6]?1:0)-(Q[b2][6]?1:0));if(limit)ids=ids.slice(0,limit);
+ids=shuffle(ids);if(onlyWrong)ids.sort((a,b2)=>((S.stat[a]||{}).at||0)-((S.stat[b2]||{}).at||0));else if(cb)ids.sort((a,b2)=>(Q[a][6]?1:0)-(Q[b2][6]?1:0));if(limit)ids=ids.slice(0,limit);
 D={list:ids,i:0,ok:0,cb:cb||null};
 document.getElementById("drill-menu").classList.add("hide");document.getElementById("drill-done").classList.add("hide");document.getElementById("drill-play").classList.remove("hide");dShow();
 }
@@ -1358,7 +1358,7 @@ document.getElementById("d-res").innerHTML="";document.getElementById("d-next").
 function dAns(k){
 const qi=D.list[D.i],q=Q[qi],ok=k===q[4];dayInc("q");if(q[6])dayInc("exam");if(S.wrong.includes(qi))dayInc("wrongq");
 document.querySelectorAll("#d-ch .ch").forEach(b=>{b.disabled=true;const kk=+b.dataset.k;if(kk===q[4])b.classList.add("ok");else if(kk===k)b.classList.add("ng")});
-S.stat[qi]=S.stat[qi]||{t:0,c:0};S.stat[qi].t++;if(ok)S.stat[qi].c++;S.stat[qi].last=ok;
+S.stat[qi]=S.stat[qi]||{t:0,c:0};S.stat[qi].t++;if(ok)S.stat[qi].c++;S.stat[qi].last=ok;S.stat[qi].at=Date.now();
 if(ok){D.ok++;S.wrong=S.wrong.filter(x=>x!==qi)}else if(!S.wrong.includes(qi))S.wrong.push(qi);
 save();
 document.getElementById("d-res").innerHTML=`<div class="res ${ok?"ok":"ng"}">${ok?"正解":"不正解"}</div>`+(q[5]?`<div class="exp">${esc(q[5])}</div>`:"");
@@ -1399,16 +1399,16 @@ if(left>0){
  phase=`インプット期（${LE.getMonth()+1}/${LE.getDate()}まで）　残り${left}PART・1日${n}PART`;
  const due=dueParts();const revN=Math.min(due.length,long?2:1);
  for(let k=0;k<revN;k++){const kk=due[k].split("-");items.push({key:"revpart",name:`復習PART（忘れかけ ${k+1}/${revN}：第${kk[0]}講 P${kk[1]}）`,min:6,t:T(Math.min(d.revpart||0,k+1),k+1),run:cb=>{const dd=dueParts();if(!dd.length){cb();return}const q=dd[0].split("-");learnStart(+q[0],+q[1],cb)}})}
- if(ngN)items.push({key:"fill",name:"復習：穴埋め「まだ」",min:long?5:3,t:T(d.fill||0,Math.min(long?15:8,ngN)),run:cb=>{show("fill",true);startFill(0,true,null,cb,long?15:8)}});
- if(wrongN)items.push({key:"wrongq",name:"復習：間違えた4択",min:long?5:3,t:T(d.wrongq||0,Math.min(long?10:5,wrongN)),run:cb=>{show("drill",true);startDrill(0,0,true,long?10:5,cb)}});
- for(let k=0;k<n;k++){items.push({key:"newpart",name:`新しいPART（${k+1}/${n}）`,min:long?11:12,t:T(Math.min(d.newpart||0,k+1),k+1),run:cb=>{const np=nextPart();if(!np){cb();return}learnStart(np[0],np[1],cb)}})}
+ if(ngN)items.push({key:"fill",name:"復習：穴埋め「まだ」",min:long?5:2,t:T(d.fill||0,Math.min(long?15:6,ngN)),run:cb=>{show("fill",true);startFill(0,true,null,cb,long?15:6)}});
+ if(wrongN)items.push({key:"wrongq",name:"復習：間違えた4択",min:long?5:2,t:T(d.wrongq||0,Math.min(long?10:4,wrongN)),run:cb=>{show("drill",true);startDrill(0,0,true,long?10:4,cb)}});
+ for(let k=0;k<n;k++){items.push({key:"newpart",name:`新しいPART（${k+1}/${n}）`,min:long?11:10,t:T(Math.min(d.newpart||0,k+1),k+1),run:cb=>{const np=nextPart();if(!np){cb();return}learnStart(np[0],np[1],cb)}})}
  items.push({key:"calc",name:"計算ドリル",min:long?5:3,t:T(d.calc||0,long?6:3),run:cb=>{show("calc",true);cStart("mix",cb,long?6:3)}});
  if(long)items.push({key:"exam",name:"共テ型 4択（先取り）",min:6,t:T(d.exam||0,6),run:cb=>{show("drill",true);startDrill(0,0,false,6,cb,true)}});
 }else{
  const finalWeek=toGoal<=7;
- phase=sunday?"仕上げ期　日曜＝模試の日":finalWeek?"直前期　本物の過去問を時間を計って解く週":"仕上げ期　共テ型＋復習";
- if(sunday){items.push({key:"mock",name:`模試（共テ型${long?30:20}問）`,min:long?30:20,t:T(d.mock||0,1),run:cb=>{show("drill",true);startDrill(0,0,false,long?30:20,(ok,n)=>{S.mock.push({d:today(),ok,n});dayInc("mock");save();cb()},true)}})}
- else{items.push({key:"exam",name:"共テ型 4択",min:long?14:8,t:T(d.exam||0,long?18:10),run:cb=>{show("drill",true);startDrill(0,0,false,long?18:10,cb,true)}})}
+ phase=(sunday&&long)?"仕上げ期　日曜＝模試の日":finalWeek?"直前期　本物の過去問を時間を計って解く週":"仕上げ期　共テ型＋復習";
+ if(sunday&&long){items.push({key:"mock",name:`模試（共テ型${long?30:20}問）`,min:long?30:20,t:T(d.mock||0,1),run:cb=>{show("drill",true);startDrill(0,0,false,long?30:20,(ok,n)=>{S.mock.push({d:today(),ok,n});dayInc("mock");save();cb()},true)}})}
+ else if(long){items.push({key:"exam",name:"共テ型 4択",min:14,t:T(d.exam||0,18),run:cb=>{show("drill",true);startDrill(0,0,false,18,cb,true)}})}else{items.push({key:"q",name:"総合4択",min:6,t:T(d.q||0,8),run:cb=>{show("drill",true);startDrill(0,0,false,8,cb,false,true)}})}
  const revN=long?2:1;const dueN=dueParts().length;for(let k=0;k<revN;k++){items.push({key:"revpart",name:`復習PART（${k+1}/${revN}${dueN?"・忘れかけ"+dueN+"件":""}）`,min:6,t:T(Math.min(d.revpart||0,k+1),k+1),run:cb=>{const dd=dueParts();let u,p;if(dd.length){[u,p]=dd[0].split("-").map(Number)}else{const od=oldestDone();if(!od){cb();return}[u,p]=od.k.split("-").map(Number)}learnStart(u,p,cb)}})}
  if(wrongN)items.push({key:"wrongq",name:"間違えた4択",min:3,t:T(d.wrongq||0,Math.min(long?10:5,wrongN)),run:cb=>{show("drill",true);startDrill(0,0,true,long?10:5,cb)}});
  if(ngN)items.push({key:"fill",name:"穴埋め「まだ」",min:2,t:T(d.fill||0,Math.min(long?15:8,ngN)),run:cb=>{show("fill",true);startFill(0,true,null,cb,long?15:8)}});
@@ -1417,6 +1417,7 @@ if(left>0){
 return{items,phase,done,total:parts.length,toGoal,LE};
 }
 let RUN=null;
+function lite(){return S.course!=="40"}
 function sessionStart(){const P=planItems();RUN={items:P.items.filter(i=>!i.t.done),i:0};sessionNext()}
 function sessionNext(){
 if(!RUN)return;const P=planItems();const pend=P.items.filter(i=>!i.t.done);
@@ -1430,7 +1431,7 @@ const now=new Date();const c=S.course;
 const cc=document.getElementById("course-card");
 if(!c){cc.innerHTML=`<h2 style="text-align:center;font-size:18px;margin-bottom:12px">コースを選ぶ</h2><div class="course"><button onclick="setCourse('20')">1日20分</button><button onclick="setCourse('40')">1日40分</button></div><p class="small" style="text-align:center;margin:12px 0 0">毎日ボタンを押すだけ。</p>`;document.getElementById("today-card").style.display="none";document.querySelector("details.more").style.display="none";return}
 document.getElementById("today-card").style.display="";
-document.querySelector("details.more").style.display="";
+document.querySelector("details.more").style.display="";document.querySelectorAll(".exam-only").forEach(e=>e.style.display=lite()?"none":"");
 cc.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span>コース：<b>1日${c}分</b></span><button class="btn sm sec" style="margin:0" onclick="setCourse(S.course==='20'?'40':'20')">${c==="20"?"40分に変更":"20分に変更"}</button></div>`;
 const P=planItems();const d=dayRec();
 const allDone=P.items.every(i=>i.t.done);if(allDone)d.complete=1;
@@ -1439,7 +1440,7 @@ let streak=0;for(let i=0;i<400;i++){const dd=new Date(now);dd.setDate(now.getDat
 const startD=new Date(2026,8,18);const elapsed=Math.max(0,daysBetween(startD,now));const totalLearnDays=daysBetween(startD,P.LE)+1;const expected=Math.min(P.total,Math.floor(P.total*elapsed/totalLearnDays));
 const pace=P.done>=expected?`予定どおり`:`目安${expected}に対して${expected-P.done}遅れ（自動で増量）`;
 const totalMin=P.items.filter(i=>!i.t.done).reduce((a,i)=>a+i.min,0);
-let mock="";if(S.mock.length){const last=S.mock.slice(-8);const w=340,h=60;mock=`<div style="margin-top:8px"><span class="small">模試の正答率（目標90%）</span><svg viewBox="0 0 ${w} ${h+16}" style="width:100%;display:block"><line x1="10" y1="${h-h*0.9}" x2="${w}" y2="${h-h*0.9}" stroke="#16a34a" stroke-dasharray="3 3"/><polyline fill="none" stroke="#2563eb" stroke-width="2" points="${last.map((m,i)=>`${10+i*(w-20)/Math.max(1,last.length-1)},${h-h*m.ok/m.n}`).join(" ")}"/>${last.map((m,i)=>`<circle cx="${10+i*(w-20)/Math.max(1,last.length-1)}" cy="${h-h*m.ok/m.n}" r="3" fill="#2563eb"/><text x="${10+i*(w-20)/Math.max(1,last.length-1)}" y="${h+12}" text-anchor="middle" font-size="9" fill="#6b7280">${Math.round(m.ok/m.n*100)}%</text>`).join("")}</svg></div>`}
+let mock="";if(S.mock.length&&!lite()){const last=S.mock.slice(-8);const w=340,h=60;mock=`<div style="margin-top:8px"><span class="small">模試の正答率（目標90%）</span><svg viewBox="0 0 ${w} ${h+16}" style="width:100%;display:block"><line x1="10" y1="${h-h*0.9}" x2="${w}" y2="${h-h*0.9}" stroke="#16a34a" stroke-dasharray="3 3"/><polyline fill="none" stroke="#2563eb" stroke-width="2" points="${last.map((m,i)=>`${10+i*(w-20)/Math.max(1,last.length-1)},${h-h*m.ok/m.n}`).join(" ")}"/>${last.map((m,i)=>`<circle cx="${10+i*(w-20)/Math.max(1,last.length-1)}" cy="${h-h*m.ok/m.n}" r="3" fill="#2563eb"/><text x="${10+i*(w-20)/Math.max(1,last.length-1)}" y="${h+12}" text-anchor="middle" font-size="9" fill="#6b7280">${Math.round(m.ok/m.n*100)}%</text>`).join("")}</svg></div>`}
 document.getElementById("today-card").innerHTML=`<h2>今日の学習 <span class="small">${now.getMonth()+1}/${now.getDate()}　11/30まで${P.toGoal}日</span></h2>
 <p class="small" style="margin:0 0 8px">${P.phase}</p>
 ${allDone?`<p style="font-size:20px;font-weight:700;color:var(--ok);margin:6px 0">✅ 今日の分は完了</p><p class="small">余裕があれば下のタブで自由練習。明日また。</p>`:`<button class="btn bigbtn" onclick="sessionStart()">▶ 今日の学習を始める（約${totalMin}分）</button>`}
@@ -1456,18 +1457,23 @@ function learnReview(){const done=Object.keys(S.part).filter(k=>S.part[k].best>=
 function learnRead(){
 const u=UNITS[L.u-1],title=u.parts[L.p-1];const prose=(LESSONS[L.u]||[])[L.p-1]||"";const bul=(NOTES[L.u]||[])[L.p-1]||[];
 document.getElementById("l-title").textContent=`第${L.u}講 P${L.p}　${title}`;document.getElementById("l-step").textContent="① 読む";
-const ex=EXAM[L.u+"-"+L.p];const fg=FIG[L.u+"-"+L.p]||"";document.getElementById("l-body").innerHTML=(fg?`<div class="figbox">${fg}</div>`:"")+`<div style="white-space:pre-wrap;line-height:1.9;margin-bottom:12px">${prose}</div><details open><summary>まとめ</summary><ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul></details>`+(ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:"");
+const ex=lite()?null:EXAM[L.u+"-"+L.p];const fg=FIG[L.u+"-"+L.p]||"";document.getElementById("l-body").innerHTML=(fg?`<div class="figbox">${fg}</div>`:"")+`<div style="white-space:pre-wrap;line-height:1.9;margin-bottom:12px">${prose}</div><details open><summary>まとめ</summary><ul class="pt">${bul.map(x=>"<li>"+x+"</li>").join("")}</ul></details>`+(ex?`<div class="exbox"><b>共テではこう出る</b><br>${ex}</div>`:"");
 const nb=document.getElementById("l-next");nb.textContent="② 穴埋めへ";nb.classList.remove("hide");window.scrollTo(0,0);
 }
 function learnNext(){
-if(L.step==="read"){const has=F.some(f=>f[0]===L.u&&f[1]===L.p);if(has){L.step="fill";show("fill",true);startFill(L.u,false,L.p,(ok,n)=>{L.fill=[ok,n];learnDrillStep()})}else learnDrillStep()}
+if(L.step==="read"){const has=F.some(f=>f[0]===L.u&&f[1]===L.p);if(has){L.step="fill";show("fill",true);startFill(L.u,false,L.p,(ok,n)=>{L.fill=[ok,n];learnDrillStep()},lite()?8:0)}else learnDrillStep()}
 else if(L.step==="done"){if(L.cb){const cb=L.cb;L.cb=null;cb();return}const np=nextPart();if(np){learnStart(np[0],np[1])}else{learnQuit()}}
-else if(L.step==="retry"){learnStart(L.u,L.p,L.cb)}
+else if(L.step==="retry"){L.step="refill";const ng=F.some((f,i)=>f[0]===L.u&&f[1]===L.p&&S.fill[i]==="ng");if(ng){show("fill",true);startFill(L.u,true,L.p,(ok,n)=>{L.fill=[ok,n];learnRedrill()})}else learnRedrill()}
+}
+function learnRedrill(){
+const has=S.wrong.some(i=>Q[i][0]===L.u&&Q[i][1]===L.p&&(!lite()||!Q[i][6]));
+if(!has){L.drill=[1,1];learnResult();return}
+L.step="drill";show("drill",true);startDrill(L.u,L.p,true,0,(ok,n)=>{L.drill=[ok,n];learnResult()},false,lite());
 }
 function learnDrillStep(){
-const has=Q.some(q=>q[0]===L.u&&q[1]===L.p);show("home",true);document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");
+const has=Q.some(q=>q[0]===L.u&&q[1]===L.p&&(!lite()||!q[6]));show("home",true);document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");
 if(!has){learnResult();return}
-L.step="drill";show("drill",true);startDrill(L.u,L.p,false,0,(ok,n)=>{L.drill=[ok,n];learnResult()});
+L.step="drill";show("drill",true);startDrill(L.u,L.p,false,lite()?6:0,(ok,n)=>{L.drill=[ok,n];learnResult()},false,lite());
 }
 function learnResult(){
 show("home",true);document.getElementById("learn-top").classList.add("hide");document.getElementById("learn-play").classList.remove("hide");
@@ -1476,9 +1482,9 @@ const IV=[3,7,14,30,60];if(pct>=80){r.stage=wasDone?Math.min((r.stage||0)+1,IV.l
 dayInc(wasDone?"revpart":"newpart");save();
 const u=UNITS[L.u-1];document.getElementById("l-title").textContent=`第${L.u}講 P${L.p}　${u.parts[L.p-1]}`;document.getElementById("l-step").textContent="③ 結果";
 const pass=pct>=80;const np=nextPart();
-document.getElementById("l-body").innerHTML=`<p style="font-size:26px;font-weight:700;margin:4px 0">${pass?"✓ 合格":"△ もう一回"}</p><p>穴埋め：覚えた ${L.fill[0]} / ${L.fill[1]}<br>4択：${ok} / ${n}（${pct}%）</p><p class="small">${pass?`次は${IV[r.stage]}日後に「忘れかけ復習」で戻ってくる。`:(wasDone?"忘れていた。この PART の穴埋めを「まだ」に戻した。明日また復習に出る。":"「読む」に戻って、まとめを見ながらもう一度。")}</p>`;
+document.getElementById("l-body").innerHTML=`<p style="font-size:26px;font-weight:700;margin:4px 0">${pass?"✓ 合格":"△ もう一回"}</p><p>穴埋め：覚えた ${L.fill[0]} / ${L.fill[1]}<br>4択：${ok} / ${n}（${pct}%）</p><p class="small">${pass?`次は${IV[r.stage]}日後に「忘れかけ復習」で戻ってくる。`:"間違えた問題だけをもう一度やる。解説を読んでから選ぶ。"}</p>`;
 const nb=document.getElementById("l-next");
-if(pass){L.step="done";nb.textContent=L.cb?"次へ":(np?`次へ：第${np[0]}講 P${np[1]}`:"全PART完了！");}else{L.step="retry";nb.textContent="もう一回（読むから）"}
+if(pass){L.step="done";nb.textContent=L.cb?"次へ":(np?`次へ：第${np[0]}講 P${np[1]}`:"全PART完了！");}else{L.step="retry";nb.textContent="間違えた問題だけやり直す"}
 render();window.scrollTo(0,0);
 }
 function learnQuit(){RUN=null;show("home");document.getElementById("learn-play").classList.add("hide");document.getElementById("learn-top").classList.remove("hide");render()}
