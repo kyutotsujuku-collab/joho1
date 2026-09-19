@@ -73,7 +73,7 @@ details.more[open]>summary::before{content:"▲ "}
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v14</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v16</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -1518,10 +1518,14 @@ let C={t:null,cur:null,ok:0,n:0};
 document.getElementById("calc-menu").innerHTML=CT.map(t=>`<button class="btn sm sec" onclick="cStart('${t.id}')">${t.name}</button>`).join("")+`<button class="btn sm" onclick="cStart('mix')">全部ミックス</button>`;
 function cStart(id,cb,limit){C={t:id,ok:0,n:0,cb:cb||null,limit:limit||0};document.getElementById("calc-play").classList.remove("hide");cNew();document.getElementById("calc-play").scrollIntoView({behavior:"smooth"})}
 function cNew(){
-if(C.cb&&C.limit&&C.n>=C.limit){const cb=C.cb;C.cb=null;document.getElementById("calc-play").classList.add("hide");cb(C.ok,C.n);return}
-const t=C.t==="mix"?CT[rnd(0,CT.length-1)]:CT.find(x=>x.id===C.t);
-C.cur=t.gen();
-document.getElementById("c-type").textContent=(C.cb&&C.limit)?`今日の計算 ${C.n+1} / ${C.limit} 問目（${t.name}）`:t.name;
+if(C.cb&&C.limit&&C.n>=C.limit){
+ if(!C.phase2){C.phase2=true;C.queue=(C.wrongTypes||[]).slice();C.qi=0}
+ if(C.qi>=C.queue.length){const cb=C.cb;C.cb=null;document.getElementById("calc-play").classList.add("hide");cb(C.ok,C.n);return}
+ C.retryType=C.queue[C.qi];C.qi++;
+}
+let t;if(C.retryType){t=CT.find(x=>x.id===C.retryType)}else if(C.t==="mix"){const used=C.used||[];const pool=CT.filter(x=>!used.includes(x.id));t=(pool.length?pool:CT)[rnd(0,(pool.length?pool:CT).length-1)];if(C.cb)C.used=used.concat(t.id)}else t=CT.find(x=>x.id===C.t);const isRetry=!!C.retryType;C.retryType=null;
+C.cur=t.gen();C.cur.tid=t.id;C.cur.retry=isRetry;
+document.getElementById("c-type").textContent=(C.cb&&C.limit)?(C.phase2?`間違えた型の類題 ${C.qi} / ${C.queue.length}（${t.name}）`:`今日の計算 ${C.n+1} / ${C.limit} 問目（${t.name}）`):(t.name+(isRetry?"　←類題":""));
 document.getElementById("c-score").textContent=`${C.ok} / ${C.n}`;
 document.getElementById("c-q").textContent=C.cur.q;
 const inp=document.getElementById("c-in");inp.value="";inp.disabled=false;inp.focus();
@@ -1534,10 +1538,10 @@ const ans=norm(C.cur.a);
 let ok=v===ans;
 if(!ok&&/^-?\d+(\.\d+)?$/.test(v)&&/^-?\d+(\.\d+)?$/.test(ans)&&!/^[01]{3,}$/.test(ans))ok=+v===+ans;
 if(!ok&&/^[01]+$/.test(ans)&&/^[01]+$/.test(v))ok=v.replace(/^0+/,"")===ans.replace(/^0+/,"");
-C.n++;if(ok)C.ok++;dayInc("calc");
+C.n++;if(ok)C.ok++;dayInc("calc");if(C.cb&&C.limit){if(!ok&&!C.phase2){C.wrongTypes=C.wrongTypes||[];if(!C.wrongTypes.includes(C.cur.tid))C.wrongTypes.push(C.cur.tid)}C.retryType=null}else{C.retryType=ok?null:C.cur.tid}
 document.getElementById("c-res").innerHTML=`<div class="res ${ok?"ok":"ng"}">${ok?"正解":"不正解　正解：<span class='mono'>"+esc(C.cur.a)+"</span>"}</div><div class="exp">${esc(C.cur.e)}</div>`;
 document.getElementById("c-score").textContent=`${C.ok} / ${C.n}`;
-document.getElementById("c-in").disabled=true;document.getElementById("c-check").classList.add("hide");const nb=document.getElementById("c-next");nb.classList.remove("hide");nb.textContent=(C.cb&&C.limit&&C.n>=C.limit)?"完了 → 次へ":"次の問題";
+document.getElementById("c-in").disabled=true;document.getElementById("c-check").classList.add("hide");const nb=document.getElementById("c-next");nb.classList.remove("hide");const fin=C.cb&&C.limit&&C.n>=C.limit&&(!(C.wrongTypes||[]).length||(C.phase2&&C.qi>=C.queue.length));nb.textContent=fin?"完了 → 次へ":((C.cb&&C.limit)?(C.n>=C.limit?"類題へ":"次の問題"):(ok?"次の問題":"類題でもう一度"));
 }
 document.getElementById("c-in").addEventListener("keydown",e=>{if(e.key==="Enter"){if(document.getElementById("c-check").classList.contains("hide"))cNew();else cCheck()}});
 
