@@ -73,7 +73,7 @@ details.more[open]>summary::before{content:"▲ "}
 </style>
 </head>
 <body>
-<header><h1>情報I 共通テスト対策</h1><span class="ver">v10</span></header>
+<header><h1>情報I 共通テスト対策</h1><span class="ver">v11</span></header>
 <nav>
 <button class="on" data-v="home">学習</button>
 <button data-v="notes">要点</button>
@@ -149,6 +149,11 @@ details.more[open]>summary::before{content:"▲ "}
 <li>知識問題は「用語の定義」より「場面に当てはめる」形が多い。"何のためにあるか"で覚える。</li>
 <li>全PART✓になったら、共通テストの試作問題・過去問（大学入試センター公開）へ。</li>
 </ul>
+<h3>記録のバックアップ</h3>
+<p class="small">記録はこの端末のブラウザに保存される。端末を替えるときや念のための保存用。</p>
+<div class="row"><button class="btn sm sec" onclick="exportData()">記録をコピー</button><button class="btn sm sec" onclick="importData()">記録を貼り付けて復元</button></div>
+<textarea id="io-box" style="width:100%;height:70px;margin-top:8px;font-size:11px;font-family:monospace;border:1px solid var(--line);border-radius:8px;padding:6px" placeholder="「記録をコピー」を押すとここに文字列が出る。別の端末ではここに貼り付けて「復元」。"></textarea>
+<p class="small" id="io-msg"></p>
 <button class="btn sec" onclick="resetAll()">記録を全部消す</button>
 </div>
 </details>
@@ -1255,6 +1260,8 @@ const LS="info1_v2";
 let S=JSON.parse(localStorage.getItem(LS)||"{}");
 S.stat=S.stat||{};S.wrong=S.wrong||[];S.fill=S.fill||{};S.part=S.part||{};S.day=S.day||{};S.mock=S.mock||[];
 function save(){localStorage.setItem(LS,JSON.stringify(S))}
+function exportData(){const t=btoa(unescape(encodeURIComponent(JSON.stringify(S))));const b=document.getElementById("io-box");b.value=t;b.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>{});document.getElementById("io-msg").textContent="コピーした（"+t.length+"文字）。メモやLINEの自分宛てに貼って保存しておく。"}
+function importData(){const t=document.getElementById("io-box").value.trim();if(!t){document.getElementById("io-msg").textContent="先に文字列を貼り付けて。";return}try{const o=JSON.parse(decodeURIComponent(escape(atob(t))));if(!o||typeof o!=="object"||!("part" in o))throw 0;if(!confirm("今の記録をこの内容で置き換える？"))return;S=o;S.stat=S.stat||{};S.wrong=S.wrong||[];S.fill=S.fill||{};S.part=S.part||{};S.day=S.day||{};S.mock=S.mock||[];save();render();document.getElementById("io-msg").textContent="復元した。"}catch(e){document.getElementById("io-msg").textContent="読み込めなかった。文字列が途中で切れていないか確認。"}}
 function resetAll(){if(confirm("記録を全部消す？")){S={stat:{},wrong:[],fill:{},part:{},day:{},mock:[]};save();render()}}
 
 /* ================= NAV ================= */
